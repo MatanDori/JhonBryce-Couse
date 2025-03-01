@@ -1,0 +1,32 @@
+/* Header alignment to center the text */
+header {
+    text-align: center;
+}
+
+/* Main table styling:
+   - Background set to black
+   - Fixed width of 800px
+*/
+.main-table {
+    background-color: black;
+    width: 800px;
+}
+
+/* Table header (thead) styled with a gray background */
+.main-table thead {
+    background-color: gray;
+}
+
+/* Table body (tbody) styled with a white background */
+.main-table tbody {
+    background-color: white;
+}
+
+/* Table cells (td) styling:
+   - Padding for spacing
+   - Centered text alignment
+*/
+.main-table td {
+    padding: 10px;
+    text-align: center;
+}

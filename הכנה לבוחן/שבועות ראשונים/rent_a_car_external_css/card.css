@@ -1,0 +1,18 @@
+/* 📌 Styling for product cards */
+.card {
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
+/* 📌 Centers cards horizontally */
+.center-div {
+    margin-left: auto;
+    margin-right: auto;
+    width: 700px;
+}
+
+/* 📌 Placeholder for additional actions styling */
+.actions {
+    font-size: 10px;
+}

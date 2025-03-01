@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Layout Example</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 4 equal columns */
+            grid-template-rows: repeat(4 , 1fr); /* Adjust rows dynamically based on content */
+            gap: 10px; /* Spacing between grid items */
+            padding: 10px;
+            background-color: #f4f4f4;
+            height: 100vh;
+        }
+
+        .item {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            display: flex;
+            border: 1px solid black;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        
+        /* Define specific areas */
+        .item1 {
+            grid-column: span 2; /* Spans 2 columns */
+            grid-row: span 2; /* Spans 2 rows */
+        }
+
+
+        .item2{
+            grid-column: span 3;
+        }
+
+        .item3 {
+            grid-column: span 2; /* Spans 1 column */
+        }
+
+        .item4,
+        .item5 {
+            grid-column: span 1; /* Spans 2 columns */
+        }
+        .item6{
+            grid-column: span 3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="item item1">
+            <p>Big News Item</p>
+        </div>
+        <div class="item item2">
+            <p>News Item 2</p>
+        </div>
+        <div class="item item3">
+            <p>News Item 3</p>
+        </div>
+        <div class="item item4">
+            <p>News Item 4</p>
+        </div>
+        <div class="item item5">
+            <p>News Item 5</p>
+        </div>
+        <div class="item item6">
+            <p>News Item 6</p>
+        </div>
+    </div>
+</body>
+
+</html>

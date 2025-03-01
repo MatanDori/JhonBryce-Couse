@@ -1,0 +1,87 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Section */
+.navbar {
+    background-color: #333; /* Dark background for header */
+    color: white;
+    padding: 10px 20px;
+}
+
+.Icon-area {
+    display: flex;
+    gap: 15px;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 20%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+    width: 32px;
+    height: 32px;
+}
+
+/* Main Content Styles */
+.main-content {
+    width: 80%;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #ffffff;
+}
+
+.card-img {
+    width: 100%;
+    height: auto;
+    margin: 10px 0;
+}
+
+.card h5 {
+    margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 30%;
+    }
+
+    .main-content {
+        width: 70%;
+    }
+}

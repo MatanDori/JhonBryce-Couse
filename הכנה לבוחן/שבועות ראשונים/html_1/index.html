@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TLT Real estate</title>
+
+    <style>
+        /* 👇 בכיתה למדנו כיצד להשתמש בבחירת סלקטורים ולשלוט על העיצוב דרך CSS */
+
+        /* מחלקה שנותנת רקע צהוב וצבע טקסט סגול */
+        .talia-p-y {
+            background-color: yellow;
+            color: purple;
+        }
+
+        /* עיצוב כללי לכל האלמנטים <li>, למדנו כיצד להשפיע על אלמנטים מסוג זה */
+        li {
+            background-color: pink;
+        }
+
+        /* מחלקה שמעצבת קישורים מסוימים */
+        .special-anchors {
+            font-size: 33px;
+            border-left: 10px solid black;
+            color: red;
+            letter-spacing: 7px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div>
+            <!-- שימוש בכותרת ראשית H1 עם מחלקה שאינה מוגדרת עדיין -->
+            <h1 class="ateam"> TLT Real Estate </h1>
+            
+            <!-- קישור לאתר MDN שבו למדנו על API של HTML -->
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style"> Docs </a>
+        </div>
+
+        <!-- כותרת שנייה -->
+        <h2> By Ofek Harush </h2>
+        <br>
+        <br>
+
+        <!-- למדנו איך להשתמש ב-h2 ליצירת כותרות נוספות -->
+        <h2> Services </h2>
+        <div>
+            <!-- רשימה מסודרת, הכיתה עסקה בהבדלים בין <ol> ל-<ul> -->
+            <ol>
+                <li> Rental apartment </li>
+                <li> Rent a Car </li>
+                <li> Full apartment content </li>
+            </ol>
+        </div>
+        <br>
+        <br>
+
+        <div>
+            <!-- קישור שמעוצב באמצעות המחלקה .special-anchors -->
+            <a class="special-anchors" href="https://tlt-israel.co.il/"> Visit us on our new website </a>
+        </div>
+
+        <div>
+            <!-- שימוש בסגנון Inline CSS כדי להוסיף מסגרת לתמונה, למדנו מדוע עדיף להשתמש ב-CSS חיצוני -->
+            <img style="border: 4px solid black;" width="300" height="300"
+                src="https://tlt-israel.co.il/wp-content/uploads/2024/02/WhatsApp-Image-2022-11-13-at-17.32.00.jpeg"
+                alt="NO IMAGE">
+        </div>
+
+        <div>
+            <!-- קישור חוזר לאתר, לא ברור אם יש צורך בו פעמיים -->
+            <a class="special-anchors" href="https://tlt-israel.co.il/"> Visit us on our new website </a>
+        </div>
+    </div>
+</body>
+
+</html>

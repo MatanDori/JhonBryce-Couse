@@ -1,0 +1,48 @@
+/* 📌 Styles for header elements */
+.border-header {
+    border: 1px solid black;
+    text-align: center;
+    border-radius: 5px;
+}
+
+/* 📌 Ensures car images take full width of the card */
+.car-image {
+    width: 100%;
+}
+
+/* 📌 Defines a fixed size for the site logo */
+.site-logo {
+    width: 100px;
+    height: 100px;
+}
+
+/* 📌 Highlights a span with a background color */
+.highlight {
+    background-color: #8d008a;
+}
+
+/* 📌 Custom button styling */
+.button-10 {
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 14px;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 6px;
+    border: none;
+    color: #fff;
+    background: linear-gradient(180deg, #4B91F7 0%, #367AF6 100%);
+    background-origin: border-box;
+    box-shadow: 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), 
+                inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2);
+    user-select: none;
+    touch-action: manipulation;
+}
+
+/* 📌 Focus effect for buttons */
+.button-10:focus {
+    box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 
+                0px 0.5px 1.5px rgba(54, 122, 246, 0.25), 
+                0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
+    outline: 0;
+}

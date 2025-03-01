@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 📌 Setting a base font size for the entire HTML document */
+        html {
+            font-size: 25px;
+        }
+
+        /* 📌 Main container with horizontal margins (10% on each side) */
+        #main-page {
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+
+        /* 📌 Header styling: 
+           - fixed height 
+           - bottom border 
+           - light background 
+           - made "sticky" with position: sticky; top:0
+         */
+        header {
+            height: 50px;
+            border-bottom: 2px solid black;
+            background: rgb(255, 222, 222);
+        }
+
+        /* 📌 Header-links container:
+           - using flex to align items horizontally
+           - justify-content: center centers the links horizontally
+           - flex-wrap: wrap allows links to wrap if there's not enough space
+         */
+        #header-links {
+            display: flex;
+            justify-content: center;
+            height: 100%;
+            margin-top: 15px;
+            align-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* 
+           .link elements can expand (flex-grow: 1) 
+           to fill available space if needed.
+        */
+        .link {
+            flex-grow: 1;
+        }
+
+        /* 📌 The main content area with a fixed height (for demonstration) */
+        #main-content {
+            height: 500px;
+        }
+
+        /* 
+           Using flexbox for #main-content to arrange 
+           its child elements horizontally.
+        */
+        #main-content {
+            display: flex;
+        }
+
+        /* 
+           .main-content-section-image is a content block 
+           that can grow 2x more than other elements (flex-grow: 2),
+           and has a red border for visibility.
+        */
+        .main-content-section-image {
+            flex-grow: 2;
+            border: 1px solid red;
+        }
+
+        /* 
+           .main-content-section is a smaller content block 
+           with a red border and can grow 1x if space is available.
+        */
+        .main-content-section {
+            flex-grow: 1;
+            border: 1px solid red;
+        }
+
+        /* 📌 Secondary content area with a height and flex layout */
+        #secondary-content {
+            height: 300px;
+            display: flex;
+        }
+
+        /* 
+           Container for commercial content 
+           arranged in a row with a small gap.
+        */
+        .commercial-content-container {
+            display: flex;
+            gap: 1px;
+        }
+
+        /* 
+           .card defines a common style for each "card" block:
+           - fixed height (250px)
+           - center alignment with display: flex
+           - background color (aquamarine)
+           - border for visibility
+           - flex-grow: 1 to share space evenly
+           - flex-direction: column for stacking content vertically
+        */
+        .card {
+            height: 250px;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            background-color: aquamarine;
+            border: 1px solid black;
+            flex-grow: 1;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main-page">
+
+        <!-- 
+            Sticky header: 
+            the "position: sticky; top:0" is inlined to ensure the header stays at the top when scrolling
+         -->
+        <header style="position: sticky; top:0">
+            <div id="header-links">
+                <div class="link">Home </div>
+                <div class="link">About </div>
+                <div class="link">Cars </div>
+                <div class="link">Sales </div>
+                <!-- 
+                    This last link has a flex-grow: 2 inline style,
+                    so it will consume more horizontal space 
+                    than the others if there's free space.
+                 -->
+                <div style="flex-grow: 2;">Support </div>
+            </div>
+        </header>
+
+        <div id="content">
+
+            <!-- 
+                Main content: 
+                a large flex container (#main-content) 
+                with two columns: an image section (flex-grow: 2) 
+                and a smaller text section (flex-grow: 1)
+            -->
+            <div id="main-content">
+                <div class="main-content-section-image">
+                    <!-- 
+                        Within this section, there's a 50%/50% split 
+                        for image/text or other content.
+                     -->
+                    <div style="height: 50%; display: flex;">
+                        <div style="border: 1px solid green; flex-grow: 1;">IMAGE</div>
+                        <div style="border: 1px solid green; flex-grow: 2;">TEXT</div>
+                    </div>
+                    <div style="height: 50%; display: flex;">
+                        <div style="border: 1px solid green; flex-grow: 1;">IMAGE</div>
+                        <div style="border: 1px solid green; flex-grow: 2;">TEXT</div>
+                    </div>
+                </div>
+                <div class="main-content-section">
+                    Text
+                </div>
+            </div>
+
+            <!-- 
+                Secondary content area, also using flex layout:
+                first a .main-content-section-image block, 
+                then another .main-content-section block.
+            -->
+            <div id="secondary-content">
+                <div class="main-content-section-image">
+                    <div style="display: flex; height: 100%;">
+                        <!-- 
+                            Another nested layout with two stacked images 
+                            in a column (pink and red backgrounds)
+                            and a text area taking up more space (flex-grow: 2).
+                        -->
+                        <div style="border: 1px solid blue;">
+                            <div style="display: flex; flex-direction: column;">
+                                <div style="height:150px; background-color:pink;">
+                                    <img style="height: 100%;"
+                                        src="https://www.mako.co.il/_next/image?url=https%3A%2F%2Fimg.mako.co.il%2F2025%2F01%2F07%2FHakokhav_Haba11_27_070125_04_Udi_Ext_autoOrient_i.jpg&w=640&q=75"
+                                        alt="">
+                                </div>
+                                <div style="height:150px; background-color: red;">
+                                    <img style="height: 100%;"
+                                        src="https://www.mako.co.il/_next/image?url=https%3A%2F%2Fimg.mako.co.il%2F2025%2F01%2F07%2FHakokhav_Haba11_27_070125_04_Udi_Ext_autoOrient_i.jpg&w=640&q=75"
+                                        alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="border: 1px solid blue; flex-grow: 2;"> TEXT </div>
+                    </div>
+                </div>
+                <div class="main-content-section">
+                    Text
+                </div>
+            </div>
+
+            <!-- 
+                Commercial content container with 4 "cards" 
+                displayed in a row (flex) with a small gap. 
+                Each card can contain an image and text. 
+            -->
+            <div class="commercial-content-container">
+                <div class="card">
+                    <img style="width: 100%; height: 100px;"
+                        src="https://www.mako.co.il/_next/image?url=https%3A%2F%2Fimg.mako.co.il%2F2025%2F01%2F08%2Fshutterstock_2415289829_autoOrient_i.jpg&w=640&q=75"
+                        alt="">
+                    <p>
+                        New Car arrival 2025
+                    </p>
+                </div>
+                <div class="card">
+                    2
+                </div>
+                <div class="card">
+                    3
+                </div>
+                <div class="card">
+                    4
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

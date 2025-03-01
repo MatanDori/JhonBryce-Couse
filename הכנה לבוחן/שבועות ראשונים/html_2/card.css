@@ -1,0 +1,19 @@
+/* הגדרת קופסה עם מסגרת ורדיוס */
+.card {
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
+/* יצירת מרכזיות עבור הכרטיסים */
+.center-div {
+    margin-left: auto;
+    margin-right: auto;
+    width: 550px;
+    display: inline-block;
+}
+
+/* אזור פעולות, אין כרגע עיצוב – אפשר להוסיף */
+.actions {
+    color: blue;
+}

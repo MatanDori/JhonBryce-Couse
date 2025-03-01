@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarRentOrder</title>
+    <link rel="stylesheet" href="CarRentalOrder.css">
+</head>
+<body>
+    <form method="get" action="orderSubmit.html" novalidate>
+        <label for="FullName">Full Name</label>
+        <input type="text" name="FullName" placeholder="Enter your full name">
+        <br>
+        <br>
+        <label for="Email Adress">Email Adress</label>
+        <input type="email" name="Email Adress" placeholder="Enter your Email Adress">
+        <br>
+        <br>
+        <label for="Phone Number">Phone Number</label>
+        <input type="tel" name="Phone Number" placeholder="Enter your Phone Number">
+        <br>
+        <br>
+        <label for="Date">Return Date</label>
+        <input type="date" name="Date">
+        <br>
+        <br>
+        <label for="Car Type">Choose Car:</label>
+        <br>
+        <input type="radio" name="Car" value="Sedan" id="SedanBox">
+        <label for="Sedan">Sedan</label>
+        <br>
+        <input type="radio" name="Car" value="SUV" id="SUVBox">
+        <label for="SUV">SUV</label>
+        <br>
+        <input type="radio" name="Car" value="Truck" id="TruckBox">
+        <label for="Truck">Truck</label>
+        <br>
+        <input type="radio" name="Car" value="Convertible" id="ConvertibleBox">
+        <label for="Convertible">Convertible</label>
+        <br>
+        <br>
+        <input type="checkbox" name="GPS" id="GPSBox">
+        <label for="GPSBox">GPS</label>
+        <br><br>
+        <input type="checkbox" name="ChildSeat" id="ChildSeatBox">
+        <label for="ChildSeatBox">Child Seat</label>
+        <br><br>
+        <input type="checkbox" name="AdditionalDriver" id="AdditionalDriverBox">
+        <label for="AdditionalDriverBox">Additional Driver</label>
+        <br><br>
+        <label>Number Of Days</label>
+        <input type="number" name="RentDuration">
+        <br><br>
+        <label for="PickupLocation">Pickup Location</label>
+        <input type="text" name="PickupLocation" placeholder="Enter Pickup Location">
+        <br><br>
+        <label for="ChooseColor">Color</label>
+        <select name="Color" id="Colors">
+            <option>Blue</option>
+            <option>Red</option>
+            <option>White</option>
+        </select>
+        <br><br>
+        <label for="Comments">Special requests</label>
+        <textarea name="Anything Else" placeholder="Enter any special requests"></textarea>
+        <br><br>
+        <label for="Submit">Submit</label>
+        <button>Send</button>
+    </form>
+</body>
+</html>

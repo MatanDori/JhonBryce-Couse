@@ -1,0 +1,63 @@
+/* 📌 League container styling */
+.league div {
+    border: 1px solid black;
+}
+
+/* 📌 General league styling */
+.league {
+    width: 50%;
+    background: rgb(255, 255, 255);
+}
+
+/* 📌 "Final Game" section stays fixed on the right at mid-screen */
+.final-game {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    padding: 10px;
+}
+
+/* 📌 Team names positioned at the bottom-right of their div */
+.league .team-name {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: black;
+    font-weight: bold;
+}
+
+/* 📌 Team ranks positioned at the top-left */
+.league .team-rank {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: black;
+    font-weight: bold;
+}
+
+/* 📌 Beitar Jerusalem styling with background image */
+.team1 {
+    background-image: url("./bj.png");
+    background-size: 150px;
+    height: 200px;
+    width: 100%;
+    position: relative;
+}
+
+/* 📌 Maccabi Haifa styling */
+.team2 {
+    background-image: url("./haifa.png");
+    background-size: 150px;
+    height: 200px;
+    width: 100%;
+    position: relative;
+}
+
+/* 📌 Maccabi Tel Aviv styling */
+.team3 {
+    background-image: url("./tlv.png");
+    background-size: 150px;
+    height: 200px;
+    width: 100%;
+    position: relative;
+}

@@ -1,0 +1,39 @@
+/* שימוש במסגרת שחורה עם כיוון טקסט למרכז */
+.border-header {
+    border: 1px solid black;
+    text-align: center;
+    border-radius: 5px;
+}
+
+/* התאמת רוחב התמונה */
+.car-image {
+    width: 100%;
+}
+
+/* גודל קבוע ללוגו */
+.site-logo {
+    width: 100px;
+    height: 100px;
+}
+
+/* הדגשת טקסט עם צבע רקע */
+.highlight {
+    background-color: #8d008a;
+}
+
+/* כותרת ראשית בצבע אדום */
+#main-header {
+    color: red;
+}
+
+/* עיצוב כפתורים */
+.button-10 {
+    cursor: pointer;
+    padding: 6px 14px;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 6px;
+    border: none;
+    color: #fff;
+    background: linear-gradient(180deg, #4B91F7 0%, #367AF6 100%);
+    box-shadow: 0px 0.5px 1.5px rgba(54, 122, 246, 0.25);
+}
