@@ -20,55 +20,61 @@
 5. support adding movie to favorite, delete from favorite
 */
 
-console.log(moviesData);//בדיקת שפיות קליטה
+console.log(moviesData); // בדיקת שפיות קליטה
 
-let selectedItems = []//מערך לבחירת סרטים וסדרות אהובים
+let selectedItems = []; // מערך לבחירת סרטים וסדרות אהובים
+
 function init() {
-    //גישה לאלמנט מסיום בתוך המערך בעזרת קוורי סלקטור
     document.querySelector("#addSelectedItems").addEventListener("click", function () {
         selectedItems.forEach(function (imdbID) {
-            addToFavorites(imdbID)
-        })
-        selectedItems = []//ריקון מערך הבחירה, לאחר הוספת האלמנטים בו לעמוד הסרטים והסדרות האהובים
+            addToFavorites(imdbID);
+        });
+        selectedItems = []; // ריקון מערך הבחירה לאחר הוספת האלמנטים
         init();
-    })
+    });
 }
+
 function getObjectById(id, arr) {
-    // validations 
     if (!Array.isArray(arr)) return; // validate that array is array
     for (let index = 0; index < arr.length; index++) {
         const current = arr[index];
-        if (current.id === id) {
+        if (current.imdbID === id) {
             return current;
         }
     }
+    return null;
 }
 
 function addToFavorites(id) {
-    const favoriteItem = getObjectById(id, moviesData)
+    const favoriteItem = getObjectById(id, moviesData);
     if (favoriteItem) {
-        const favoritesString = localStorage.getItem("favoritesItems")  // fetch from LS (get)
+        const favoritesString = localStorage.getItem("favoritesItems");
+        let favoritesArray = [];
+
         if (favoritesString) {
-            let favoritesArray = []
             try {
-                favoritesArray = JSON.parse(favoritesString)
+                favoritesArray = JSON.parse(favoritesString);
             } catch (error) {
-                console.log(error)
+                console.log(error);
             }
-            const found = getJokeObjById(favoriteItem.imdbID, favoritesArray)
-            if (!found) {
-                favoritesJokesArray.push(favoriteItem) // push into array
-                const favoritesArrayString = JSON.stringify(favoritesArray)// JSON.stringify
-                localStorage.setItem("favoritesItems", favoritesArrayString)// insert into LS (set)
-                alertSuccess()
-            } else {
-                alertError()
+        }
+
+        let found = false;
+        for (let i = 0; i < favoritesArray.length; i++) {
+            if (favoritesArray[i].imdbID === id) {
+                found = true;
+                break;
             }
+        }
+
+        if (!found) {
+            favoritesArray.push(favoriteItem);
+            localStorage.setItem("favoritesItems", JSON.stringify(favoritesArray));
+            alertSuccess();
         } else {
-            localStorage.setItem("favoritesItems", JSON.stringify([favoriteItem]))
+            alertError();
         }
     }
-
 }
 
 function alertSuccess() {
@@ -77,6 +83,7 @@ function alertSuccess() {
         icon: "success"
     });
 }
+
 function alertError(message = "Already added") {
     Swal.fire({
         title: message,
@@ -85,79 +92,85 @@ function alertError(message = "Already added") {
 }
 
 function selectItem(id) {
-    if (selectedItems.indexOf(Number(id)) === -1) {
-        selectedItems.push(id)
-    }
-    init()
-    console.log(selectedItems)
-}
-
-init()
-
-
-
-//בונה את כרטיס הסרט
-function getCardTemplate(data, action , isSelected = false) {
-    const {Title,Year,Rated,Released,Runtime,Genre,Director,Writer,image,imdbRating,imdbVotes,imdbID,type} = data
-    let button = `<h3> <button class="btn btn-primary" onClick="addToFavorites(${imdbID})"> Add </button> </h3>`
-    if (action === 'remove') {
-        button = `<h3> <button class="btn btn-danger" onClick="removeFromFavorites(${imdbID})"> Remove </button> </h3>`
-    }
-    const selectedClass = isSelected ? "selectedClass" : ""
-    const buttonSelect = `<h3> <button class="btn btn-warning" onClick="selectItem(${imdbID})"> Select </button> </h3>`
-    return `<div id="${imdbID}" class="card card-width ${selectedClass}" >
-                <h3>${imdbID}</h3>
-                <h2><span class="badge badge-light" style="background:blue">${type}</span></h2>
-                <h2>${Title}</h2>
-                <h2>${Year}</h2>
-                <h2>${Rated}</h2>
-                <h2>${Released}</h2>
-                <h2>${Runtime}</h2>
-                <h2>${Genre}</h2>
-                <h2>${Director}</h2>
-                <h2>${Writer}</h2>
-                <h2>${image}</h2>
-                <h2>${imdbRating}</h2>
-                <h2>${imdbVotes}</h2>
-                ${button}
-                ${buttonSelect}
-                </div>`
-}
-function loadCards(array, targetContent, action = "add", selectedItems = []) {
-    if (!Array.isArray(array)) return; // validate that arrayOfCars is array
-    const content = document.getElementById(targetContent) // Tomer remind me!
-    if (!content) return;
-    content.innerHTML = ""
-    for (let index = 0; index < array.length; index++) {
-        const currentObject = array[index]
-        let cardHtml = null
-        if(selectedItems.indexOf(currentObject.id) === -1){
-            cardHtml =  getCardTemplate(currentObject, action, false)
-        }else{
-            cardHtml =  getCardTemplate(currentObject, action, true)
-            // cardHtml
+    let exists = false;
+    for (let i = 0; i < selectedItems.length; i++) {
+        if (selectedItems[i] === id) {
+            exists = true;
+            break;
         }
-        
-        content.innerHTML += cardHtml
+    }
+    if (!exists) {
+        selectedItems.push(id);
+    }
+    init();
+    console.log(selectedItems);
+}
+
+// בונה את כרטיס הסרט
+function getCardTemplate(data, action, isSelected = false) {
+    const { Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Images, imdbRating, imdbVotes, imdbID, Type } = data;
+
+    let button = `<h3> <button class="btn btn-primary" onClick="addToFavorites('${imdbID}')"> Add </button> </h3>`;
+    if (action === 'remove') {
+        button = `<h3> <button class="btn btn-danger" onClick="removeFromFavorites('${imdbID}')"> Remove </button> </h3>`;
+    }
+
+    const selectedClass = isSelected ? "selectedClass" : "";
+    const buttonSelect = `<h3> <button class="btn btn-warning" onClick="selectItem('${imdbID}')"> Select </button> </h3>`;
+
+    return `<div id="${imdbID}" class="card card-width ${selectedClass}">
+                <img src="${Images[0]}" class="card-img-top" style="width: 100%; height: 250px;">
+                <div class="card-body">
+                    <h3>${Title} (${Year})</h3>
+                    <p><strong>Rated:</strong> ${Rated}</p>
+                    <p><strong>Released:</strong> ${Released}</p>
+                    <p><strong>Runtime:</strong> ${Runtime}</p>
+                    <p><strong>Genre:</strong> ${Genre}</p>
+                    <p><strong>Director:</strong> ${Director}</p>
+                    <p><strong>Writer:</strong> ${Writer}</p>
+                    <p><strong>IMDB Rating:</strong> ⭐ ${imdbRating} (${imdbVotes} votes)</p>
+                    ${button}
+                    ${buttonSelect}
+                </div>
+            </div>`;
+}
+
+function loadCards(array, targetContent, action = "add", selectedItems = []) {
+    if (!Array.isArray(array)) return; // validate that array is array
+    const content = document.getElementById(targetContent);
+    if (!content) return;
+    content.innerHTML = "";
+
+    for (let index = 0; index < array.length; index++) {
+        const currentObject = array[index];
+        let isSelected = false;
+
+        for (let i = 0; i < selectedItems.length; i++) {
+            if (selectedItems[i] === currentObject.imdbID) {
+                isSelected = true;
+                break;
+            }
+        }
+
+        let cardHtml = getCardTemplate(currentObject, action, isSelected);
+        content.innerHTML += cardHtml;
     }
 }
 
 function getObjectIndexById(id, arr) {
-    // missing validations 
-    if (!Array.isArray(arr)) return; // validate that arrayOfCars is array
+    if (!Array.isArray(arr)) return; // validate that array is array
     for (let index = 0; index < arr.length; index++) {
         const current = arr[index];
-        if (current.id === id) {
+        if (current.imdbID === id) {
             return index;
         }
     }
-
+    return -1;
 }
 
-function loadTotalItems(total, targetContent)   {
-   const result =  document.querySelector(`#${targetContent}`)
-   result.innerText = total
+function loadTotalItems(total, targetContent) {
+    const result = document.querySelector(`#${targetContent}`);
+    result.innerText = total;
 }
 
-
-
+init();
