@@ -11,7 +11,7 @@
 
     <label for="precentVAT">Enter VAT Percentage:</label>
     <input type="number" id="precentVAT" placeholder="Enter VAT percentage">
-    <button onclick="saveVat()">Save your VAT percentage</button>
+    <button id="saveVatButton" onclick="saveVat()">Save your VAT percentage</button>
     <hr>
     <label for="earnedMoney">Income Amount:</label>
     <input type="number" id="earnedMoney" placeholder="Enter income amount">
@@ -31,7 +31,7 @@
     <label for="Comments">Additional Comments:</label>
     <textarea id="Comments" placeholder="Enter any special requests"></textarea>
     <br>
-    <button onclick="addMoney()">Submit Data</button>
+    <button id="addMoneyButton" onclick="addMoney()">Submit Data</button>
     <hr>
     <h3>Income Table</h3>
     <table border="1">
@@ -48,5 +48,7 @@
             <!-- Data Fill Here -->
         </tbody>
     </table>
+    <br>
+    <button id="clearTable" onclick="clearTable()">Clear Data</button>
 </body>
 </html>
