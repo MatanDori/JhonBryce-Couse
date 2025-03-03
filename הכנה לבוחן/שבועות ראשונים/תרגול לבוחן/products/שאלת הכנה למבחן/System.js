@@ -120,9 +120,9 @@ function clearTable() {
 
 
 function addMoney(){
-    const income = createIncomeObject();
+    const income = createIncomeObject();//יצירת עצם
     if (!income) return; // Valitations
-    let incomeList = JSON.parse(localStorage.getItem("incomeData")) || [];//שליפת נתונים קיימים, אם קיימים
+    let incomeList = JSON.parse(localStorage.getItem("incomeData")) || [];//שליפת נתונים קיימים, אם קיימים//
     incomeList.push(income);//הוספת נתונים
     localStorage.setItem("incomeData", JSON.stringify(incomeList));//עדכון 
 
