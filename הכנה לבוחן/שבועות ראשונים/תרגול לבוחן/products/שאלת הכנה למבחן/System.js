@@ -113,6 +113,7 @@ function loadIncomeTable(){
     <td>${income.amountWithVAT} $</td>
     <td>${income.incomeSource}</td>
     <td>${income.netIncomeAfterTax} $</td>
+    <td>${income.netIncomeAfterTax} $</td>
     </tr>`;
     tableBody.innerHTML += tableRow;//add row 
     });
