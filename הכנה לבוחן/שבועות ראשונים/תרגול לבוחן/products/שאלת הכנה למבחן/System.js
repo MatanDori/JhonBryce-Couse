@@ -102,17 +102,6 @@ function saveVat(){
     localStorage.setItem("Vat value", vatValue); // Save VAT to localStorage
     return (vatValue / 100);   
 }
-function saveVat(){
-    const vatInput = document.getElementById("precentVAT").value;
-    const vatValue = parseFloat(vatInput);
-    //validations
-    if (isNaN(vatValue) || vatValue < 0) {
-        alert("Enter a valid VAT percentage!");
-        return;
-    }
-    localStorage.setItem("Vat value", vatValue); // Save VAT to localStorage
-    return (vatValue / 100);   
-}
 
 function clearTable() {
     document.getElementById("incomeTable").innerHTML = "";
