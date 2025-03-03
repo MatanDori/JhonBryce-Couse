@@ -134,7 +134,7 @@ function loadIncomeTable(){
 let incomeList = JSON.parse(localStorage.getItem("incomeData")) || [];//שליפת נתונים קיימים, אם קיימים
 let tableBody = document.getElementById("incomeTable");
 clearTable();
-incomeList.array.forEach(income => {
+incomeList.forEach(income => {
 //fill the table
 let tableRow = `<tr>
 <td>${income.createdAt}</td>
