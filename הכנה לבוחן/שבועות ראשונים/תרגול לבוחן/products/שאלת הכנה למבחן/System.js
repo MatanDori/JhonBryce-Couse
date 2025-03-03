@@ -64,7 +64,7 @@ function createIncomeObject() {
         alert("Please enter a valid tax deduction!");
         return null; 
     }
-
+    //יצירת משתני סכומים מתאימים
     let amountWithoutVAT, amountWithVAT;
 
     if (isVATIncluded) {
@@ -138,10 +138,10 @@ incomeList.forEach(income => {
 //fill the table
 let tableRow = `<tr>
 <td>${income.createdAt}</td>
-<td>${income.amountWithoutVAT} ₪</td>
-<td>${income.amountWithVAT} ₪</td>
+<td>${income.amountWithoutVAT} $</td>
+<td>${income.amountWithVAT} $</td>
 <td>${income.incomeSource}</td>
-<td>${income.netIncomeAfterTax} ₪</td>
+<td>${income.netIncomeAfterTax} $</td>
 </tr>`;
 
 tableBody.innerHTML += tableRow;//add row 
