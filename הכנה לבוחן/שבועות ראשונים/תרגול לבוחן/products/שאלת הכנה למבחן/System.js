@@ -117,3 +117,10 @@ function loadIncomeTable(){
     tableBody.innerHTML += tableRow;//add row 
     });
 }
+//delete one row from the table
+
+//add search bar 
+
+//create to select some rows
+
+//
