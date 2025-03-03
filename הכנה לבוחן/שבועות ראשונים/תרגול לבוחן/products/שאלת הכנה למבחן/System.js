@@ -97,31 +97,46 @@ function addMoney(){
     incomeList.push(income);//הוספת נתונים
     let incomeListString = JSON.stringify(incomeList);
     localStorage.setItem("incomeData", incomeListString);//עדכון 
-    // טוען מחדש את הטבלה עם הנתונים החדשים
-    loadIncomeTable();
+   
 }
-  
 function loadIncomeTable(){
     let incomeList = JSON.parse(localStorage.getItem("incomeData")) || [];//שליפת נתונים קיימים, אם קיימים
     let tableBody = document.getElementById("incomeTable");
     clearTable();
-    incomeList.forEach(income => {
-    //fill the table
-    let tableRow = `<tr>
-    <td>${income.createdAt}</td>
-    <td>${income.amountWithoutVAT} $</td>
-    <td>${income.amountWithVAT} $</td>
-    <td>${income.incomeSource}</td>
-    <td>${income.netIncomeAfterTax} $</td>
-    <td>${income.netIncomeAfterTax} $</td>
-    </tr>`;
-    tableBody.innerHTML += tableRow;//add row 
+
+    incomeList.forEach((income, index) => {
+        let tableRow = document.createElement("tr");
+        tableRow.innerHTML = `
+            <td>${income.createdAt}</td>
+            <td>${income.amountWithoutVAT} $</td>
+            <td>${income.amountWithVAT} $</td>
+            <td>${income.incomeSource}</td>
+            <td>${income.netIncomeAfterTax} $</td>
+        `;
+        tableRow.appendChild(getDeleteButton(index)); //  כפתור מחיקה
+        tableBody.appendChild(tableRow);
     });
 }
-//delete one row from the table
+
+// פונקציה שמחזירה כפתור מחיקה
+function getDeleteButton(index) {
+    const button = document.createElement("button");
+    button.classList.add("btn", "btn-danger");//bootstaps classes
+    button.innerHTML = `<i class="bi bi-trash3"></i>`; 
+//delete from local storage//
+    button.onclick = function () {
+        let incomeList = JSON.parse(localStorage.getItem("incomeData")) || [];
+        incomeList.splice(index, 1);//נלמד בשיעור האחרון
+        localStorage.setItem("incomeData", JSON.stringify(incomeList));
+        loadIncomeTable(); // רענון הטבלה
+    };
+    //בניית התא בו ישכון כפתור המחיקה
+    const tdButton = document.createElement("td");
+    tdButton.appendChild(button);
+    return tdButton;
+}
 
 //add search bar 
 
 //create to select some rows
 
-//hiiiiii
