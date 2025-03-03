@@ -3,52 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Income Reporting System</title>
     <link rel="stylesheet" href="System.css">
 </head>
 <body>
-    <h1>Welcome to the site</h1>
-        <label for="precentVAT">Enter VAT presentage</label>
-        <input type="number" name="precentVAT" id="precentVAT" placeholder="Enter VAT presentage">
-        <br>
-        <button onclick="saveVat()">Save yuor VAT presentage</button>
-        <br>
-        <label for="earnedMoney">Earned Money</label>
-        <input type="number" name="earnedMoney" id="earnedMoney" placeholder="Enter sum of Money">
-        <br>
-        <label for="incomeSource">Source of income</label>
-        <input type="number" name="incomeSource" id="incomeSource" placeholder="Enter Income Source">
-        <br>
-        <label for="VAT Type">VAT?:</label>
-        <br>
-        <input type="radio" name="optionVAT" value="VAT" id="boxVAT">
-        <label for="VAT">VAT</label>
-        <br>
-        <input type="radio" name="optionVAT" value="NoVAT" id="boxNoVAT">
-        <label for="No VAT">No VAT</label>
-        <br>
-        <label for="taxDeduction">Tax Deduction</label>
-        <input type="text" name="taxDeduction" id="taxDeduction" placeholder="Enter Tax Deduction">
-        <br>
-        <label for="Comments">Special requests</label>
-        <textarea name="Anything Else" id="Comments" placeholder="Enter any special requests"></textarea>
-        <br>
-        <button onclick="addMoney()">Send Data</button>
-        <br>
-        <br>
-        <h3>Table of income</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Income without VAT</th>
-                    <th>Income with VAT</th>
-                    <th>Source of income</th>
-                    <th>Income after Tax Deduction</th>
-                </tr>
-            </thead>
-            <tbody id="incomeTable">
-            </tbody>
-        </table>
-    </body>
+    <h1>Income Reporting System</h1>
+
+    <label for="precentVAT">Enter VAT Percentage:</label>
+    <input type="number" id="precentVAT" placeholder="Enter VAT percentage">
+    <button onclick="saveVat()">Save your VAT percentage</button>
+    <hr>
+    <label for="earnedMoney">Income Amount:</label>
+    <input type="number" id="earnedMoney" placeholder="Enter income amount">
+    <br>
+    <label for="incomeSource">Income Source:</label>
+    <input type="text" id="incomeSource" placeholder="Enter Income Source">
+    <br>
+    <label>VAT Included?</label>
+    <input type="radio" name="optionVAT" value="VAT" id="boxVAT">
+    <label for="boxVAT">Yes</label>
+    <input type="radio" name="optionVAT" value="NoVAT" id="boxNoVAT">
+    <label for="boxNoVAT">No</label>
+    <br>
+    <label for="taxDeduction">Tax Deduction:</label>
+    <input type="number" id="taxDeduction" placeholder="Enter tax deduction">
+    <br>
+    <label for="Comments">Additional Comments:</label>
+    <textarea id="Comments" placeholder="Enter any special requests"></textarea>
+    <br>
+    <button onclick="addMoney()">Submit Data</button>
+    <hr>
+    <h3>Income Table</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Income without VAT</th>
+                <th>Income with VAT</th>
+                <th>Income Source</th>
+                <th>Income after Tax Deduction</th>
+            </tr>
+        </thead>
+        <tbody id="incomeTable">
+            <!-- Data Fill Here -->
+        </tbody>
+    </table>
+</body>
 </html>
