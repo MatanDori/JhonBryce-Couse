@@ -6,8 +6,8 @@ function init() {
     document.getElementById("addMoneyButton")?.addEventListener("click", function () {
         addMoney();
     });
-    document.getElementById("loadCarsRentButton")?.addEventListener("click", function () {
-        loadTable();
+    document.getElementById("loadTable")?.addEventListener("click", function () {
+        loadIncomeTable();
     });
     document.getElementById("deleteData")?.addEventListener("click", function () {
         clearTable();
@@ -120,10 +120,32 @@ function clearTable() {
 
 
 function addMoney(){
-    
+    const income = createIncomeObject();
+    if (!income) return; // Valitations
+    let incomeList = JSON.parse(localStorage.getItem("incomeData")) || [];//שליפת נתונים קיימים, אם קיימים
+    incomeList.push(income);//הוספת נתונים
+    localStorage.setItem("incomeData", JSON.stringify(incomeList));//עדכון 
+
+    // טוען מחדש את הטבלה עם הנתונים החדשים
+    loadIncomeTable();
 }
-function loadTable(){
-    // Validate inputs
-    
-    clearTable();
+  
+function loadIncomeTable(){
+let incomeList = JSON.parse(localStorage.getItem("incomeData")) || [];//שליפת נתונים קיימים, אם קיימים
+let tableBody = document.getElementById("incomeTable");
+clearTable();
+incomeList.array.forEach(income => {
+//fill the table
+let tableRow = `<tr>
+<td>${income.createdAt}</td>
+<td>${income.amountWithoutVAT} ₪</td>
+<td>${income.amountWithVAT} ₪</td>
+<td>${income.incomeSource}</td>
+<td>${income.netIncomeAfterTax} ₪</td>
+</tr>`;
+
+tableBody.innerHTML += tableRow;//add row 
+});
+
+
 }
