@@ -47,7 +47,7 @@ function init() {
 //
 function createIncomeObject() {
     const vatRate = saveVat(); // Get VAT rate
-    const amount = parseFloat(document.getElementById("earnedMoney").value); //Get amount of money
+    const amount = parseFloat(document.getElementById("earnedMoney").value); //Get amount of money//
     const incomeSource = document.getElementById("incomeSource").value;//Get income source
     const taxDeduction = parseFloat(document.getElementById("taxDeduction").value) || 0;//get tax deduction//
     const isVATIncluded = document.getElementById("boxVAT").checked;//get tax deduction//
