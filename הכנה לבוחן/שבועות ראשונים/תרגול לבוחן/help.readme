@@ -1,0 +1,325 @@
+# Creating a structured JavaScript file containing all relevant functions
+js_code = """
+// =============================
+// Local Storage Functions
+// =============================
+
+// Save data to localStorage
+function saveToLocalStorage(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+// Load data from localStorage
+function loadFromLocalStorage(key) {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : [];
+}
+
+// Remove an item from localStorage
+function removeFromLocalStorage(key) {
+    localStorage.removeItem(key);
+}
+
+// =============================
+// General Utility Functions
+// =============================
+
+// Get object by ID from an array
+function getObjectById(id, array) {
+    if (!Array.isArray(array)) return null;
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].id === id) {
+            return array[i];
+        }
+    }
+    return null;
+}
+
+// Get index of object in an array by ID
+function getObjectIndexById(id, array) {
+    if (!Array.isArray(array)) return -1;
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].id === id) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// =============================
+// Functions for Managing Favorites
+// =============================
+
+// Add an item to favorites
+function addToFavorites(id, dataArray, storageKey) {
+    const favoriteItem = getObjectById(id, dataArray);
+    if (!favoriteItem) return;
+
+    let favoritesArray = loadFromLocalStorage(storageKey);
+    let found = favoritesArray.some(item => item.id === id);
+
+    if (!found) {
+        favoritesArray.push(favoriteItem);
+        saveToLocalStorage(storageKey, favoritesArray);
+        alertSuccess("Added to favorites!");
+    } else {
+        alertError("Already in favorites!");
+    }
+}
+
+// Remove an item from favorites
+function removeFromFavorites(id, storageKey) {
+    let favoritesArray = loadFromLocalStorage(storageKey);
+    favoritesArray = favoritesArray.filter(item => item.id !== id);
+    saveToLocalStorage(storageKey, favoritesArray);
+    alertSuccess("Removed from favorites");
+}
+
+// =============================
+// UI Functions - Cards
+// =============================
+
+// Generate a card HTML template
+function getCardTemplate(data, action) {
+    return `<div class="card">
+                <h3>${data.Title} (${data.Year})</h3>
+                <p>${data.Genre}</p>
+                <button onclick="${action}('${data.id}')">${action === 'addToFavorites' ? 'Add to Favorites' : 'Remove'}</button>
+            </div>`;
+}
+
+// Load cards into a given container
+function loadCards(array, targetContent, action) {
+    if (!Array.isArray(array)) return;
+    const content = document.getElementById(targetContent);
+    if (!content) return;
+    content.innerHTML = "";
+
+    array.forEach(item => {
+        content.innerHTML += getCardTemplate(item, action);
+    });
+}
+
+// =============================
+// UI Functions - Table
+// =============================
+
+// Load a table with data
+function loadTable(dataArray, tableBodyId) {
+    let tableBody = document.getElementById(tableBodyId);
+    if (!tableBody) return;
+    tableBody.innerHTML = "";
+
+    dataArray.forEach(item => {
+        let row = `<tr>
+            <td>${item.createdAt}</td>
+            <td>${item.amountWithoutVAT}</td>
+            <td>${item.amountWithVAT}</td>
+            <td>${item.netIncomeAfterTax}</td>
+            <td>${item.taxDeduction}</td>
+            <td><button class="btn btn-danger" onclick="deleteRow(this)">🗑</button></td>
+        </tr>`;
+        tableBody.innerHTML += row;
+    });
+}
+
+// Delete a row from a table
+function deleteRow(button) {
+    button.closest("tr").remove();
+}
+
+// =============================
+// Chart & Statistics Functions
+// =============================
+
+// Generate a pie chart from dataset
+function generatePieChart(canvasId, data) {
+    const ctx = document.getElementById(canvasId).getContext("2d");
+    new Chart(ctx, {
+        type: "pie",
+        data: {
+            labels: Object.keys(data),
+            datasets: [{
+                data: Object.values(data),
+                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+            }]
+        }
+    });
+}
+
+// =============================
+// Search & Filter Functions
+// =============================
+
+// Search items in an array by a keyword
+function searchItems(keyword, array, key) {
+    return array.filter(item => item[key].toLowerCase().includes(keyword.toLowerCase()));
+}
+
+// =============================
+// Notifications
+// =============================
+
+// Show success alert
+function alertSuccess(message) {
+    Swal.fire({
+        title: message,
+        icon: "success"
+    });
+}
+
+// Show error alert
+function alertError(message) {
+    Swal.fire({
+        title: message,
+        icon: "error"
+    });
+}
+
+// =============================
+// Initialization Function
+// =============================
+
+// Initialize event listeners
+function init() {
+    document.getElementById("addMoneyButton")?.addEventListener("click", function () {
+        addMoney();
+    });
+    document.getElementById("loadTable")?.addEventListener("click", function () {
+        loadIncomeTable();
+    });
+    document.getElementById("deleteData")?.addEventListener("click", function () {
+        clearTable();
+    });
+}
+
+document.addEventListener("DOMContentLoaded", init);
+"""
+
+# Save the JavaScript file
+file_path = "/mnt/data/utility_functions.js"
+with open(file_path, "w") as f:
+    f.write(js_code)
+
+# Provide download link
+file_path
+
+
+
+// פונקציות כלליות לעבודה עם Local Storage
+function saveToLocalStorage(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+}
+
+function loadFromLocalStorage(key) {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : [];
+}
+
+function removeFromLocalStorage(key) {
+    localStorage.removeItem(key);
+}
+
+// פונקציה להוספת פריט למערך ושמירה ב-LocalStorage
+function addItemToLocalStorageArray(key, item) {
+    let dataArray = loadFromLocalStorage(key);
+    dataArray.push(item);
+    saveToLocalStorage(key, dataArray);
+}
+
+// פונקציה למחיקת פריט ממערך ב-LocalStorage
+function removeItemFromLocalStorageArray(key, idProperty, idValue) {
+    let dataArray = loadFromLocalStorage(key);
+    dataArray = dataArray.filter(item => item[idProperty] !== idValue);
+    saveToLocalStorage(key, dataArray);
+}
+
+// פונקציות לעבודה עם טבלאות
+function clearTable(tableId) {
+    document.getElementById(tableId).innerHTML = "";
+}
+
+function appendRowToTable(tableId, rowData) {
+    let tableBody = document.getElementById(tableId);
+    let row = document.createElement("tr");
+
+    rowData.forEach(data => {
+        let td = document.createElement("td");
+        td.innerHTML = data;
+        row.appendChild(td);
+    });
+
+    // הוספת כפתור מחיקה לכל שורה
+    let deleteButton = getDeleteButton(row);
+    row.appendChild(deleteButton);
+
+    tableBody.appendChild(row);
+}
+
+// פונקציה ליצירת כפתור מחיקה
+function getDeleteButton(row) {
+    let td = document.createElement("td");
+    let button = document.createElement("button");
+    button.classList.add("btn", "btn-danger");
+    button.innerHTML = '<i class="bi bi-trash3"></i>';
+    button.onclick = function () {
+        row.remove();
+    };
+    td.appendChild(button);
+    return td;
+}
+
+// פונקציה להוספת נתונים לטבלה מתוך LocalStorage
+function loadTableFromLocalStorage(tableId, storageKey) {
+    let tableBody = document.getElementById(tableId);
+    clearTable(tableId);
+    
+    let dataArray = loadFromLocalStorage(storageKey);
+    dataArray.forEach(item => {
+        appendRowToTable(tableId, Object.values(item));
+    });
+}
+
+// פונקציות לחישובי מע"מ וניכוי מס
+function calculateVAT(amount, vatRate, isIncluded) {
+    return isIncluded ? amount / (1 + vatRate) : amount * vatRate;
+}
+
+function calculateNetIncome(amount, taxDeduction) {
+    return amount - (amount * taxDeduction);
+}
+
+// פונקציה ליצירת אובייקט הכנסה
+function createIncomeObject(amount, vatRate, taxDeduction, incomeSource, isVATIncluded) {
+    let amountWithoutVAT = isVATIncluded ? amount / (1 + vatRate) : amount;
+    let amountWithVAT = isVATIncluded ? amount : amount * (1 + vatRate);
+
+    return {
+        createdAt: new Date().toLocaleDateString(),
+        amountWithoutVAT: amountWithoutVAT.toFixed(2),
+        amountWithVAT: amountWithVAT.toFixed(2),
+        netIncomeAfterTax: calculateNetIncome(amountWithoutVAT, taxDeduction).toFixed(2),
+        incomeSource: incomeSource,
+        taxDeduction: (taxDeduction * 100).toFixed(2) + "%",
+        vatRate: (vatRate * 100).toFixed(2) + "%"
+    };
+}
+
+// פונקציית חיפוש במערך נתונים לפי מחרוזת חיפוש
+function searchInArray(array, searchTerm, property) {
+    return array.filter(item => item[property].toLowerCase().includes(searchTerm.toLowerCase()));
+}
+
+// פונקציה לסינון נתונים
+function filterArrayByCondition(array, conditionCallback) {
+    return array.filter(conditionCallback);
+}
+
+// פונקציה למיון מערך לפי מאפיין
+function sortArrayByProperty(array, property, ascending = true) {
+    return array.sort((a, b) => {
+        if (a[property] < b[property]) return ascending ? -1 : 1;
+        if (a[property] > b[property]) return ascending ? 1 : -1;
+        return 0;
+    });
+}
