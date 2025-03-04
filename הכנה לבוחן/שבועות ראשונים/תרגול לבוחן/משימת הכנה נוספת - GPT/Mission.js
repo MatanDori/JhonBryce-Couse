@@ -10,90 +10,92 @@ function init(){
         clearTable();
     });
 }
-//קליטת המידע מהטופס
-function saveData(){
-    const data = createDataObject();
-    if(!data) return;//Validation
-    let dataArrayString = localStorage.getItem("dataArea");//fetch from LS
-    let dataArray = JSON.parse(dataArrayString) || [] ;//הגדרת מערך שנקלט מהאיחסון או מערך ריק, אם המערך הקיים לא נמצא
-    dataArray.push(data);
-    dataArrayString = JSON.stringify(dataArray);//עדכון המערך לקראת החזרה לאיחסון
-    localStorage.setItem( "dataArea", dataArrayString)//החזרה
-}
-// פונקציה שבודקת האם הפעולה היא הוצאה או הכנסה
-function Checker(){
-    const isIncome = document.getElementById("boxIncome").checked;
-    return isIncome ? "Income" : "Spend"; // Return the correct action as a string//
+
+// Function to check if the action is Income or Expense
+function getActionType() {
+    return document.getElementById("boxIncome").checked ? "Income" : "Expense";
 }
 
-//יצירת אובייקט המידע
+// Save data to localStorage
+function saveData(){
+    const data = createDataObject();
+    if (!data) return;
+
+    let dataArray = JSON.parse(localStorage.getItem("dataArea")) || [];
+    dataArray.push(data);
+    localStorage.setItem("dataArea", JSON.stringify(dataArray));
+
+    // Refresh the table after adding new data
+    loadTable();
+}
+
+// Create data object
 function createDataObject() {
-    const amount = parseFloat(document.getElementById("moneyAmount").value);//Get Amount of money 
-    const reason = document.getElementById("moneyReason").value.trim();//Get reason source
-    const action = Checker();
-    //validations
-    if (isNaN(amount) || amount < 0) {
+    const amount = parseFloat(document.getElementById("moneyAmount").value);
+    const reason = document.getElementById("moneyReason").value;
+    const action = getActionType();
+
+    // Validations
+    if (isNaN(amount) || amount <= 0) {
         alert("Please enter a valid amount!");
-        return; 
+        return null;
     }
-    if (reason === "") {
+    if (!reason.trim()) {
         alert("Please enter a valid reason!");
-        return; 
+        return null;
     }
+
     // Create object
-    const data = {
+    return {
         createdAt: new Date().toLocaleDateString(),
         Action: action,
-        Amount: amount,
+        Amount: amount.toFixed(2) + " $",
         Reason: reason
     };
-    return data;
 }
-//ניקוי הטבלה
+
+// Clear the table content
 function clearTable() {
     document.getElementById("actionTable").innerHTML = "";
-   }
-//מחיקה פרטנית שורה שורה לפי האינקדס של האובייקט
-   function getDeleteButton(index) {
+    localStorage.removeItem("dataArea");
+}
+
+// Create delete button for each row
+function getDeleteButton(index) {
     const button = document.createElement("button");
-    button.classList.add("btn", "btn-danger");//bootstaps classes
-    button.innerHTML = `<i class="bi bi-trash3"></i>`; 
-    //delete from local storage//
+    button.classList.add("btn", "btn-danger");
+    button.innerHTML = `<i class="bi bi-trash3"></i>`;
+
     button.onclick = function () {
-        let dataArrayString = localStorage.getItem("dataArea");//fetch from LS
-        let dataArray = JSON.parse(dataArrayString) || [];//הגדרת מערך שנקלט מהאיחסון או מערך ריק, אם המערך הקיים לא נמצא
-        dataArray.splice(index, 1);//נלמד בשיעור האחרון
+        let dataArray = JSON.parse(localStorage.getItem("dataArea")) || [];
+        dataArray.splice(index, 1);
         localStorage.setItem("dataArea", JSON.stringify(dataArray));
-        loadTable(); // רענון הטבלה
+        loadTable();
     };
-    //בניית התא בו ישכון כפתור המחיקה
+
     const tdButton = document.createElement("td");
     tdButton.appendChild(button);
     return tdButton;
 }
-//טעינת הטבלה
+
+// Load and display table data
 function loadTable(){
-    let dataArrayString = localStorage.getItem("dataArea");
-    let dataArray = JSON.parse(dataArrayString) || [];
+    let dataArray = JSON.parse(localStorage.getItem("dataArea")) || [];
     let tableBody = document.getElementById("actionTable");
     clearTable();
+
     dataArray.forEach((data, index) => {
         let tableRow = document.createElement("tr");
         tableRow.innerHTML = `
             <td>${data.createdAt}</td>
-            <td>${data.action} $</td>
-            <td>${data.Amount} $</td>
+            <td>${data.Action}</td>
+            <td>${data.Amount}</td>
             <td>${data.Reason}</td>
         `;
-        tableRow.appendChild(getDeleteButton(index)); // כפתור מחיקה
+        tableRow.appendChild(getDeleteButton(index)); 
         tableBody.appendChild(tableRow);
     });
 }
 
-
-
-
-
-
-
-init();
+// Initialize the script when the page loads
+document.addEventListener("DOMContentLoaded", init);

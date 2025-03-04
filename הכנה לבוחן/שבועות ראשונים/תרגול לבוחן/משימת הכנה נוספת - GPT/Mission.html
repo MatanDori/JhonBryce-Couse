@@ -3,54 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-    crossorigin="anonymous">
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>Site</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Income & Expenses Tracker</title>
     <link rel="stylesheet" href="Mission.css">
 </head>
 <body>
-    <h1>Income and Outcome Form</h1>
-    <label for="moneyAmount">Money Amount:</label>
-    <input type="number" id="moneyAmount" placeholder="Enter money amount">
-    <br>
-    <label for="moneyReason">Reason:</label>
-    <input type="text" id="moneyReason" placeholder="Enter Reason">
-    <br>
-    <label>Action:</label>
-    <input type="radio" name="optionAction" value="Income" id="boxIncome">
-    <label for="boxIncome">Income</label>
-    <input type="radio" name="optionAction" value="NoIncome" id="boxNoIncome">
-    <label for="boxNoIncome">Spend</label>
-    <br>
-    <button id="saveDataButton" onclick="saveData()">Save your Data</button>
-    <hr>
-    <button id="loadTable" onclick="loadTable()">Load Table</button>
-    <h3>Table</h3>
-    <br>
-    <input placeholder="Search Something" id="searchText" class="form-control" type="text" />
-    <button id="searchButton" class="btn btn-primary mt-2">Search</button>
-    <table id="table" border="1">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Action</th>
-                <th>Amount</th>
-                <th>Reason For Amount</th>
-                <th>Delete button</th>
-            </tr>
-        </thead>
-        <tbody id="actionTable">
-            <!-- Data Fill Here -->
-        </tbody>
-    </table>
-    <br>
-    <button id="clearTable" onclick="clearTable()">Clear Table</button>
+    <div class="container">
+        <h1 class="text-center mt-4">Income & Expenses Form</h1>
+
+        <div class="mb-3">
+            <label for="moneyAmount" class="form-label">Money Amount:</label>
+            <input type="number" id="moneyAmount" class="form-control" placeholder="Enter money amount">
+        </div>
+
+        <div class="mb-3">
+            <label for="moneyReason" class="form-label">Reason:</label>
+            <input type="text" id="moneyReason" class="form-control" placeholder="Enter Reason">
+        </div>
+
+        <div class="mb-3">
+            <label>Action:</label>
+            <div>
+                <input type="radio" name="optionAction" value="Income" id="boxIncome" checked>
+                <label for="boxIncome">Income</label>
+
+                <input type="radio" name="optionAction" value="Expense" id="boxExpense">
+                <label for="boxExpense">Expense</label>
+            </div>
+        </div>
+
+        <button id="saveDataButton" class="btn btn-success">Save Data</button>
+        <button id="loadTable" class="btn btn-primary">Load Table</button>
+        <button id="clearTable" class="btn btn-warning">Clear Table</button>
+
+        <hr>
+
+        <h3 class="text-center">Transaction Table</h3>
+        <table id="table" class="table table-bordered mt-3">
+            <thead class="table-dark">
+                <tr>
+                    <th>Date</th>
+                    <th>Action</th>
+                    <th>Amount</th>
+                    <th>Reason</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="actionTable">
+                <!-- Data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
     <script src="Mission.js"></script>
 </body>
 </html>
