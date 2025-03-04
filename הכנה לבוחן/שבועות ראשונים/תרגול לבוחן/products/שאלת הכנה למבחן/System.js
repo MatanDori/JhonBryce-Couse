@@ -15,7 +15,7 @@ function init() {
     document.getElementById("deleteData")?.addEventListener("click", function () {
         clearTable();
     });
-    document.getElementById("Search")?.addEventListener("click", function () {
+    document.getElementById("searchButton")?.addEventListener("click", function () {
     const input = document.getElementById("searchText").value.trim().toLowerCase(); // Get search input
     const incomeList = JSON.parse(localStorage.getItem("incomeData")) || []; // Get stored income data
     const filteredResults = searchIncome(incomeList, input); // Perform search
@@ -23,18 +23,14 @@ function init() {
     localStorage.setItem("filteredIncomeData", JSON.stringify(filteredResults));
     // Trigger the existing loadIncomeTable function
     loadIncomeTable();
-});
-
+    });
 }
 function searchIncome(arr, searchText) {
     if (!Array.isArray(arr) || arr.length === 0) return []; // Validate array
     if (!searchText) return arr; // Return full data if search is empty
-
+//בדיקת החיפוש בעזרת פילטר ובדיקת ואלידציה
     return arr.filter(income =>
-        Object.values(income).some(value =>
-            typeof value === "string" && value.toLowerCase().includes(searchText)
-        )
-    );
+        Object.values(income).some(value =>typeof value === "string" && value.includes(searchText)));
 }
 
 function saveVat(){

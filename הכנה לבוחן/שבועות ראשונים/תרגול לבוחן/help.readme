@@ -323,3 +323,169 @@ function sortArrayByProperty(array, property, ascending = true) {
         return 0;
     });
 }
+
+
+# Creating the first file: Complex Functions Reference
+complex_functions_content = """
+// Complex Functions Reference
+// This file contains various functions used for handling arrays, localStorage, and table manipulations.
+
+/**
+ * Save a value to localStorage
+ * @param {string} key - The key under which the data will be stored.
+ * @param {any} value - The value to store.
+ */
+function saveToLocalStorage(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+/**
+ * Load a value from localStorage
+ * @param {string} key - The key to retrieve data from.
+ * @returns {any} The parsed JSON value or null if not found.
+ */
+function loadFromLocalStorage(key) {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : null;
+}
+
+/**
+ * Add a new item to an array stored in localStorage
+ * @param {string} key - The key of the localStorage array.
+ * @param {object} newItem - The new item to be added.
+ */
+function addItemToLocalStorageArray(key, newItem) {
+    let existingArray = loadFromLocalStorage(key) || [];
+    existingArray.push(newItem);
+    saveToLocalStorage(key, existingArray);
+}
+
+/**
+ * Remove an item from localStorage array by id
+ * @param {string} key - The key of the localStorage array.
+ * @param {string} id - The id of the item to be removed.
+ */
+function removeItemFromLocalStorageArray(key, id) {
+    let existingArray = loadFromLocalStorage(key) || [];
+    existingArray = existingArray.filter(item => item.id !== id);
+    saveToLocalStorage(key, existingArray);
+}
+
+/**
+ * Search in an array of objects
+ * @param {Array} arr - The array to search in.
+ * @param {string} text - The search text.
+ * @param {string} field - The object field to search within.
+ * @returns {Array} Filtered search results.
+ */
+function searchArray(arr, text, field) {
+    if (!Array.isArray(arr)) return [];
+    if (!text) return arr;
+    return arr.filter(item => item[field]?.toLowerCase().includes(text.toLowerCase()));
+}
+
+/**
+ * Generate a dynamic table from an array of objects.
+ * @param {Array} dataArray - The data array.
+ * @param {string} tableBodyId - The id of the table body.
+ */
+function loadTable(dataArray, tableBodyId) {
+    let tableBody = document.getElementById(tableBodyId);
+    if (!tableBody) return;
+    tableBody.innerHTML = "";
+    dataArray.forEach(data => {
+        let row = "<tr>";
+        for (let key in data) {
+            row += `<td>${data[key]}</td>`;
+        }
+        row += `<td><button class="btn btn-danger" onclick="removeItem('${data.id}')">Delete</button></td>`;
+        row += "</tr>";
+        tableBody.innerHTML += row;
+    });
+}
+
+/**
+ * Clear a table's content
+ * @param {string} tableBodyId - The id of the table body.
+ */
+function clearTable(tableBodyId) {
+    let tableBody = document.getElementById(tableBodyId);
+    if (tableBody) tableBody.innerHTML = "";
+}
+"""
+
+# Creating the second file: Practice Task in Hebrew
+practice_task_content = """<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תרגול מערכת ניהול הכנסות</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container">
+    <h1 class="mt-4">מערכת לניהול הכנסות</h1>
+
+    <label for="income">הכנסה:</label>
+    <input type="number" id="income" class="form-control">
+
+    <label for="vat">מע"מ (%):</label>
+    <input type="number" id="vat" class="form-control">
+
+    <label for="tax">ניכוי מס במקור (%):</label>
+    <input type="number" id="tax" class="form-control">
+
+    <button id="addIncome" class="btn btn-primary mt-3">הוסף הכנסה</button>
+    <button id="clearTable" class="btn btn-danger mt-3">נקה טבלה</button>
+
+    <h2 class="mt-4">טבלת הכנסות</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>תאריך</th>
+                <th>סכום ללא מע"מ</th>
+                <th>סכום המע"מ</th>
+                <th>ניכוי מס</th>
+                <th>סה"כ</th>
+                <th>פעולות</th>
+            </tr>
+        </thead>
+        <tbody id="incomeTable"></tbody>
+    </table>
+
+    <script>
+        document.getElementById("addIncome").addEventListener("click", function() {
+            const income = parseFloat(document.getElementById("income").value);
+            const vatRate = parseFloat(document.getElementById("vat").value) / 100;
+            const taxRate = parseFloat(document.getElementById("tax").value) / 100;
+            
+            if (isNaN(income) || income <= 0) {
+                alert("נא להזין סכום הכנסה תקין");
+                return;
+            }
+
+            const vatAmount = income * vatRate;
+            const netIncome = income - (income * taxRate);
+            const totalAmount = netIncome + vatAmount;
+            
+            const tableBody = document.getElementById("incomeTable");
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${new Date().toLocaleDateString()}</td>
+                <td>${income.toFixed(2)}</td>
+                <td>${vatAmount.toFixed(2)}</td>
+                <td>${(income * taxRate).toFixed(2)}</td>
+                <td>${totalAmount.toFixed(2)}</td>
+                <td><button class="btn btn-danger" onclick="this.parentElement.parentElement.remove()">🗑️</button></td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        document.getElementById("clearTable").addEventListener("click", function() {
+            document.getElementById("incomeTable").innerHTML = "";
+        });
+    </script>
+</body>
+</html>
+"""
+
