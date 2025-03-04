@@ -1,3 +1,14 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+.container {
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
 label {
     display: block;
     margin-bottom: 8px;
@@ -27,6 +38,8 @@ button {
     color: white;
     border: none;
     cursor: pointer;
+    margin-right: 10px;
+
 }
 
 button:hover {
@@ -35,12 +48,12 @@ button:hover {
 
 h1 {
     text-align: center;
-    color: #333;
+    margin-bottom: 20px;
 }
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 th, td {

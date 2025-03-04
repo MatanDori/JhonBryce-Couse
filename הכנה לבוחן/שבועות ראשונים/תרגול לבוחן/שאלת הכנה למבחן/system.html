@@ -16,55 +16,57 @@
     <link rel="stylesheet" href="System.css">
 </head>
 <body>
-    <h1>Income Reporting System</h1>
-
-    <label for="precentVAT">Enter VAT Percentage:</label>
-    <input type="number" id="precentVAT" placeholder="Enter VAT percentage">
-    <button id="saveVatButton" onclick="saveVat()">Save your VAT percentage</button>
-    <hr>
-    <label for="earnedMoney">Income Amount:</label>
-    <input type="number" id="earnedMoney" placeholder="Enter income amount">
-    <br>
-    <label for="incomeSource">Income Source:</label>
-    <input type="text" id="incomeSource" placeholder="Enter Income Source">
-    <br>
-    <label>VAT Included?</label>
-    <input type="radio" name="optionVAT" value="VAT" id="boxVAT">
-    <label for="boxVAT">Yes</label>
-    <input type="radio" name="optionVAT" value="NoVAT" id="boxNoVAT">
-    <label for="boxNoVAT">No</label>
-    <br>
-    <label for="taxDeduction">Tax Deduction:</label>
-    <input type="number" id="taxDeduction" placeholder="Enter tax deduction">
-    <button id="saveTaxDeductionButton" onclick="saveTaxDeduction()">Save your Tax Deduction percentage</button>
-    <br>
-    <label for="Comments">Additional Comments:</label>
-    <textarea id="Comments" placeholder="Enter any special requests"></textarea>
-    <br>
-    <button id="addMoneyButton" onclick="addMoney()">Submit Data</button>
-    <hr>
-    <button id="loadTable" onclick="loadIncomeTable()">Load Data</button>
-    <h3>Income Table</h3>
-    <br>
-    <input placeholder="Search" id="searchText" class="form-control" type="text" />
-    <button id="searchButton" class="btn btn-primary mt-2">Search</button>
-    <table id="table" border="1">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Income without VAT</th>
-                <th>Income with VAT</th>
-                <th>Income Source</th>
-                <th>Income after Tax Deduction</th>
-                <th>Delete button</th>
-            </tr>
-        </thead>
-        <tbody id="incomeTable">
-            <!-- Data Fill Here -->
-        </tbody>
-    </table>
-    <br>
-    <button id="clearTable" onclick="clearTable()">Clear Data</button>
-    <script src="System.js"></script>
+    <div class="container">
+        <h1>Income Reporting System</h1>
+        <br>
+        <label for="precentVAT">Enter VAT Percentage:</label>
+        <input type="number" id="precentVAT" placeholder="Enter VAT percentage">
+        <button id="saveVatButton" onclick="saveVat()">Save your VAT percentage</button>
+        <hr>
+        <label for="earnedMoney">Income Amount:</label>
+        <input type="number" id="earnedMoney" placeholder="Enter income amount">
+        <br>
+        <label for="incomeSource">Income Source:</label>
+        <input type="text" id="incomeSource" placeholder="Enter Income Source">
+        <br>
+        <label>VAT Included?</label>
+        <input type="radio" name="optionVAT" value="VAT" id="boxVAT">
+        <label for="boxVAT">Yes</label>
+        <input type="radio" name="optionVAT" value="NoVAT" id="boxNoVAT">
+        <label for="boxNoVAT">No</label>
+        <br>
+        <label for="taxDeduction">Tax Deduction:</label>
+        <input type="number" id="taxDeduction" placeholder="Enter tax deduction">
+        <button id="saveTaxDeductionButton" onclick="saveTaxDeduction()">Save your Tax Deduction percentage</button>
+        <br>
+        <label for="Comments">Additional Comments:</label>
+        <textarea id="Comments" placeholder="Enter any special requests"></textarea>
+        <br>
+        <button id="addMoneyButton" onclick="addMoney()">Submit Data</button>
+        <hr>
+        <button id="loadTable" onclick="loadIncomeTable()">Load Data</button>
+        <h3>Income Table</h3>
+        <br>
+        <input placeholder="Search" id="searchText" class="form-control" type="text" />
+        <button id="searchButton" class="btn btn-primary mt-2">Search</button>
+        <table id="table" border="1">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Income without VAT</th>
+                    <th>Income with VAT</th>
+                    <th>Income Source</th>
+                    <th>Income after Tax Deduction</th>
+                    <th>Delete button</th>
+                </tr>
+            </thead>
+            <tbody id="incomeTable">
+                <!-- Data Fill Here -->
+            </tbody>
+        </table>
+        <br>
+        <button id="clearTable" onclick="clearTable()">Clear Data</button>
+        <script src="System.js"></script>
+    </div>
 </body>
 </html>
