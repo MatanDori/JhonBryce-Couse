@@ -57,8 +57,8 @@ function createDataObject() {
 // Clear the table content
 function clearTable() {
     document.getElementById("actionTable").innerHTML = "";
-    localStorage.removeItem("dataArea");
 }
+
 
 // Create delete button for each row
 function getDeleteButton(index) {
@@ -79,10 +79,14 @@ function getDeleteButton(index) {
 }
 
 // Load and display table data
-function loadTable(){
-    let dataArray = JSON.parse(localStorage.getItem("dataArea")) || [];
+function loadTable() {
+    let dataArrayString = localStorage.getItem("dataArea"); 
+    if (!dataArrayString) return; // If no data, exit
+    
+    let dataArray = JSON.parse(dataArrayString) || [];
     let tableBody = document.getElementById("actionTable");
-    clearTable();
+    
+    clearTable(); // Clears only the visual content, not localStorage
 
     dataArray.forEach((data, index) => {
         let tableRow = document.createElement("tr");
@@ -96,6 +100,7 @@ function loadTable(){
         tableBody.appendChild(tableRow);
     });
 }
-
-// Initialize the script when the page loads
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("DOMContentLoaded", function () {
+    init();
+   // loadTable(); // Load table data when the page opens
+});
