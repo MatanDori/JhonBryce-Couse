@@ -101,7 +101,7 @@ function getCardTemplate(data, action, isSelected = false) {
             </button>
         </div>
     `;
-
+    //יצירת 2 הכפתורים המתאימים
     let button = `<h3> <button class="btn btn-primary" onClick="addToFavorites('${imdbID}')"> Add </button> </h3>`;
     if (action === 'remove') {
         button = `<h3> <button class="btn btn-danger" onClick="removeFromFavorites('${imdbID}')"> Remove </button> </h3>`;
