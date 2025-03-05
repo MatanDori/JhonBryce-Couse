@@ -1,152 +1,103 @@
+// Board class to manage the chessboard
 class Board {
     constructor() {
         this.grid = this.createBoard();
     }
 
     createBoard() {
-        let board = [];
-        for (let i = 0; i < 8; i++) {
-            let row = [];
-            for (let j = 0; j < 8; j++) {
-                row.push(null);
-            }
-            board.push(row);
-        }
-        return board;
+        return Array(8).fill(null).map(() => Array(8).fill(null));
     }
 
     placePiece(piece, x, y) {
         this.grid[x][y] = piece;
-        piece.position = { x: x, y: y };
+        piece.x = x;
+        piece.y = y;
+        piece.isActive = true;
     }
 
     movePiece(piece, newX, newY) {
-        if (piece.isMoveOk(newX, newY)) {//אם המהלך תקין
-            this.grid[piece.position.x][piece.position.y] = null; // מחיקת הכלי מהמיקום הישן
-            this.grid[newX][newY] = piece; // העברת הכלי למיקום החדש
-            piece.position = { x: newX, y: newY };//עדכון המקום
-            alert(`${piece.name} moved to (${newX}, ${newY})`);
+        if (!piece.isActive) {
+            console.log(`${piece.name} is no longer in play.`);
+            return;
+        }
+
+        if (piece.isMoveOk(newX, newY)) {
+            const targetPiece = this.grid[newX][newY];
+
+            if (targetPiece && targetPiece.color !== piece.color) {
+                console.log(`${piece.name} captures ${targetPiece.name}!`);
+                targetPiece.isActive = false; // Mark captured piece as inactive
+            }
+
+            this.grid[piece.x][piece.y] = null;
+            this.grid[newX][newY] = piece;
+            piece.x = newX;
+            piece.y = newY;
+
+            console.log(`${piece.name} moved to (${newX}, ${newY})`);
         } else {
-            alert("Invalid move!");
+            console.log("Invalid move!");
         }
     }
 
     displayBoard() {
-        for (let i = 0; i < 8; i++) {
-            let row = "";//ראשית ניצור שורה ריקה
-            for (let j = 0; j < 8; j++) {
-                let piece = this.grid[i][j]; // בחירת המשבצת לכלי 
-                
-                if (piece) { //אם יש כלי
-                    row += piece.name[0] + "  "; //הצגת הכלים, לפי אות ראשונה בשם
-                } else { 
-                    row += ".  "; 
-                }
-            }
-            console.log(row);
-        }
+        console.log("\nChess Board:");
+        this.grid.forEach(row => console.log(row.map(cell => (cell ? cell.name[0] : ".")).join(" ")));
         console.log("\n");
     }
-    
-
-
 }
 
-//(Player)
-class Player {
-    constructor(name, color) {
-        this.name = name;
-        this.color = color; // "White" או "Black"
-    }
-}
-//כלים המופיעים על לוח השחמט
-class Pawn {
-    constructor(color) {
-        this.name = "Pawn";
-        this.color = color;
-        this.position = null;
-    }
+// Basic ChessPiece constructor function
+function ChessPiece(name, color) {
+    this.name = name;
+    this.color = color;
+    this.x = null;
+    this.y = null;
+    this.isActive = true;
 
-    isMoveOk(newX, newY) {
-        let { x, y } = this.position;
-        return (newX === x - 1 && newY === y); // צעד אחד קדימה
-    }
+    this.isMoveOk = function (newX, newY) {
+        return false; // Default: No valid moves
+    };
 }
 
-class Rook {
-    constructor(color) {
-        this.name = "Rook";
-        this.color = color;
-        this.position = null;
-    }
+// Specific chess pieces with movement logic
+function Pawn(color) {
+    ChessPiece.call(this, "Pawn", color);
 
-    isMoveOk(newX, newY) {
-        let { x, y } = this.position;
-        return newX === x || newY === y; // נע רק אופקית או אנכית
-    }
+    this.isMoveOk = function (newX, newY) {
+        return newX === this.x - 1 && newY === this.y;
+    };
 }
 
-class Knight {
-    constructor(color) {
-        this.name = "Knight";
-        this.color = color;
-        this.position = null;
-     
-    }
+function Rook(color) {
+    ChessPiece.call(this, "Rook", color);
 
-    isMoveOk(newX, newY) {
-        let { x, y } = this.position;
-        return (Math.abs(newX - x) === 2 && Math.abs(newY - y) === 1) ||
-               (Math.abs(newX - x) === 1 && Math.abs(newY - y) === 2); // L movement
-    }
+    this.isMoveOk = function (newX, newY) {
+        return newX === this.x || newY === this.y;
+    };
 }
 
-class Bishop {
-    constructor(color) {
-        this.name = "Bishop";
-        this.color = color;
-        this.position = null;
-    }
+function Queen(color) {
+    ChessPiece.call(this, "Queen", color);
 
-    isMoveOk(newX, newY) {
-        let { x, y } = this.position;
-        return Math.abs(newX - x) === Math.abs(newY - y); // תנועה אלכסונית באופן כזה כך שההפרשים חייבים להיות זהים 
-        }
-        //דרך נוספת, ניתן בעזרת פיתגורס ונוסחת מרחק של גיאומטריה אנליטית
+    this.isMoveOk = function (newX, newY) {
+        return newX === this.x || newY === this.y || Math.abs(newX - this.x) === Math.abs(newY - this.y);
+    };
 }
 
-class Queen {
-    constructor(color) {
-        this.name = "Queen";
-        this.color = color;
-        this.position = null;
-    }
-
-    isMoveOk(newX, newY) {
-        let { x, y } = this.position;
-        return newX === x || newY === y || Math.abs(newX - x) === Math.abs(newY - y); //תזוזה לכל הכיוונים
-    }
-}
-
-class King {
-    constructor(color) {
-        this.name = "King";
-        this.color = color;
-        this.position = null;
-    }
-
-    isMoveOk(newX, newY) {
-        let { x, y } = this.position;
-        return Math.abs(newX - x) <= 1 && Math.abs(newY - y) <= 1; // צעד אחד לכל כיוון
-    }
-}
-
+// Example: Using the board
 const board = new Board();
-const player1 = new Player("Matan", "White");
-const player2 = new Player("Noa", "Black");
 const whitePawn = new Pawn("White");
-const blackKing = new King("Black");
+const blackRook = new Rook("Black");
 const whiteQueen = new Queen("White");
-const blackBishop = new Bishop("Black");
+
+board.placePiece(whitePawn, 6, 0);
+board.placePiece(blackRook, 0, 0);
+board.placePiece(whiteQueen, 7, 3);
+
+board.displayBoard();
+
+board.movePiece(whitePawn, 5, 0);
+board.movePiece(whiteQueen, 0, 0); // Queen captures Rook
 
 board.displayBoard();
