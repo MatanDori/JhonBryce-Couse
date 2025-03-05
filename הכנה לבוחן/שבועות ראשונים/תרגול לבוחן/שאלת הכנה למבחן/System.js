@@ -16,22 +16,48 @@ function init() {
         clearTable();
     });
     document.getElementById("searchButton")?.addEventListener("click", function () {
-    const input = document.getElementById("searchText").value.trim().toLowerCase(); // Get search input
-    const incomeList = JSON.parse(localStorage.getItem("incomeData")) || []; // Get stored income data
-    const filteredResults = searchIncome(incomeList, input); // Perform search
-    // Store filtered results temporarily in localStorage
-    localStorage.setItem("filteredIncomeData", JSON.stringify(filteredResults));
-    // Trigger the existing loadIncomeTable function
-    loadIncomeTable();
+        const input = document.getElementById("searchText").value.trim().toLowerCase(); // Get search input
+        let incomeList = JSON.parse(localStorage.getItem("incomeData")) || []; // Get stored income data
+    
+        // Validate search input
+        if (!input) {
+            loadIncomeTable(); // If search is empty, load the full table
+            return;
+        }
+    
+        let filteredResults = incomeList.filter(income => {
+            return Object.values(income).some(value =>
+                typeof value === "string" && value.toLowerCase().includes(input)
+            );
+        });
+    
+        loadFilteredTable(filteredResults); // Load results instead of entire data
     });
 }
-function searchIncome(arr, searchText) {
-    if (!Array.isArray(arr) || arr.length === 0) return []; // Validate array
-    if (!searchText) return arr; // Return full data if search is empty
-//בדיקת החיפוש בעזרת פילטר ובדיקת ואלידציה
-    return arr.filter(income =>
-        Object.values(income).some(value =>typeof value === "string" && value.includes(searchText)));
-}
+    function loadFilteredTable(filteredData) {
+        let tableBody = document.getElementById("incomeTable");
+        tableBody.innerHTML = ""; // Clear table before adding new rows
+    
+        if (filteredData.length === 0) {
+            tableBody.innerHTML = "<tr><td colspan='6' class='text-center'>No results found</td></tr>";
+            return;
+        }
+    
+        filteredData.forEach((income, index) => {
+            let tableRow = document.createElement("tr");
+            tableRow.innerHTML = `
+                <td>${income.createdAt}</td>
+                <td>${income.amountWithoutVAT} $</td>
+                <td>${income.amountWithVAT} $</td>
+                <td>${income.incomeSource}</td>
+                <td>${income.netIncomeAfterTax} $</td>
+            `;
+            tableRow.appendChild(getDeleteButton(index)); // Add delete button
+            tableBody.appendChild(tableRow);
+        });
+    }
+    
+
 
 function saveVat(){
     const vatInput = document.getElementById("precentVAT").value;

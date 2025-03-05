@@ -489,3 +489,125 @@ practice_task_content = """<!DOCTYPE html>
 </html>
 """
 
+Basic Local Storage Methods
+Method	Description
+localStorage.setItem(key, value)	Stores a value under a key.
+localStorage.getItem(key)	Retrieves the value stored under a key.
+localStorage.removeItem(key)	Deletes a specific key-value pair.
+localStorage.clear()	Clears all stored data in local storage.
+
+// Store data
+localStorage.setItem("username", "Perry");
+
+// Retrieve data
+let user = localStorage.getItem("username");
+console.log(user); // Output: "Perry"
+
+// Remove an item
+localStorage.removeItem("username");
+
+// Clear all local storage
+localStorage.clear();
+
+//JSON stringify
+Example: Converting an Object to a JSON String
+javascript
+Copy
+Edit
+let user = {
+    name: "Perry",
+    age: 22,
+    skills: ["JavaScript", "React", "Node.js"]
+};
+
+let userString = JSON.stringify(user);
+console.log(userString);
+/*
+Output:
+'{"name":"Perry","age":22,"skills":["JavaScript","React","Node.js"]}'
+*/
+Storing Objects in Local Storage
+javascript
+Copy
+Edit
+localStorage.setItem("user", JSON.stringify(user));
+
+6️⃣ Date & Time Handling
+Current Date
+js
+const today = new Date();
+console.log(today.toLocaleDateString()); // Output: 3/6/2025 (Format depends on location)
+
+Getting Specific Date Components
+const now = new Date();
+console.log(now.getFullYear()); // Output: 2025
+console.log(now.getMonth() + 1); // Output: 3 (Months are 0-indexed)
+console.log(now.getDate()); // Output: 6
+
+Using Date Input Field
+html
+<input type="date" id="myDate">
+<button onclick="getDate()">Submit</button>
+
+<script>
+function getDate() {
+    const dateValue = document.getElementById("myDate").value;
+    console.log("Selected Date:", dateValue);
+}
+</script>
+
+//select Area
+function selectAllRows() {
+    const tableRows = document.querySelectorAll("#incomeTable tr"); // בחירת כל השורות בטבלה
+    tableRows.forEach(row => {
+        row.classList.toggle("selected"); // הוספת/הסרת מחלקה של שורה נבחרת
+    });
+}
+
+<button id="selectAllButton" onclick="selectAllRows()">Select All</button>
+
+.selected {
+    background-color: lightblue; /* רקע כחול בהיר כדי להדגיש את השורה הנבחרת */
+}
+//שורה אחת
+function getSelectButton(row) {
+    const button = document.createElement("button");
+    button.classList.add("btn", "btn-info"); // Bootstrap classes
+    button.innerText = "Select";
+
+    // פונקציה לסימון/ביטול סימון של השורה
+    button.onclick = function () {
+        row.classList.toggle("selectedRow"); // הוספה/הסרה של המחלקה
+    };
+
+    const tdButton = document.createElement("td");
+    tdButton.appendChild(button);
+    return tdButton;
+}
+
+function loadTable() {
+    let dataArrayString = localStorage.getItem("dataArea");
+    let dataArray = JSON.parse(dataArrayString) || []; 
+    let tableBody = document.getElementById("actionTable");
+    clearTable();
+
+    dataArray.forEach((data, index) => {
+        let tableRow = document.createElement("tr");
+        tableRow.innerHTML = `
+            <td>${data.createdAt}</td>
+            <td>${data.Action}</td> 
+            <td>${data.Amount} $</td>
+            <td>${data.Reason}</td>
+        `;
+
+        tableRow.appendChild(getSelectButton(tableRow)); // כפתור בחירה
+        tableRow.appendChild(getDeleteButton(index)); // כפתור מחיקה
+
+        tableBody.appendChild(tableRow);
+    });
+}
+
+
+.selectedRow {
+    background-color: lightblue !important;
+}
