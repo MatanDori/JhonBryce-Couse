@@ -42,6 +42,9 @@ function getTableRowFromProductObject(singleProduct) {
         tdTags.innerHTML += `<button type="button" class="btn btn-outline-primary">${item}</button>`
     })
 
+    const tdRDelete = document.createElement("td")
+    tdTags.innerHTML += `<button type="button" class="btn-danger" onclick=${deleteRow()}>${"Delete"}</button>`
+
 
     const tdImage = document.createElement("td")
     const image = document.createElement("img")
@@ -53,4 +56,7 @@ function getTableRowFromProductObject(singleProduct) {
 
     tableRow.append(tdId, tdTitle, tdBrand, tdCategory, tdPrice, tdRating, tdTags, tdImage)
     return tableRow;
+}
+function deleteRow(){
+
 }
