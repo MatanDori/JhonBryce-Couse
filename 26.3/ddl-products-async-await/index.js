@@ -44,7 +44,6 @@ async function getProductsByCategoryApi(categoryId) {
     try{
         showLoader();
         const result2 = await fetch(`https://dummyjson.com/products/category/${categoryId}`);
-        hideLoader()
         const data2 = await result2.json();
         draw(data2.products)
     }
@@ -52,7 +51,7 @@ async function getProductsByCategoryApi(categoryId) {
         alert("Something went wrong!")
     }
     finally {
-        // do something anyway
+        hideLoader()
     }
 
 }
