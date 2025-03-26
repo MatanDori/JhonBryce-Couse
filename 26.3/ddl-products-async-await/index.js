@@ -1,8 +1,10 @@
 const DOM = {
     selectCategory: null,
-    loader: null
+    loader: null,
+    statisticsContent: null
 }
 function init() {
+    DOM.statisticsContent = document.getElementById("stats")
     DOM.selectCategory = document.getElementById("categoriesSelect")
     DOM.loader = document.getElementById("loader")
     DOM.selectCategory.addEventListener("change", function () {
@@ -10,25 +12,34 @@ function init() {
         showProducts(this.value)
     })
     console.log("starting the api request.. ")
-    getCategoriesApi()
+    showCategories()
     console.log("after api request")
 }
 
 // split between UI and API logic. showCategories() & getCategoriesApi()
-async function getCategoriesApi() {
+
+async function showCategories() {
     try {
-        console.log("before await...")
-        const result = await fetch(`https://dummyjson.com/products/categories`)
-        const data = await result.json()
-        drawCategories(data)
-        console.log("after await...")
-    } catch (error) {
-        alert("Something went wrong!")
-    } finally {
+        const result = await getCategoriesApi()
+        drawCategories([{ slug: "all", name: "All" }, ...result])
     }
-
-
+    catch {
+        alert("Something went wrong!")
+    }
+    finally {
+        console.log("another async function done running")
+    }
 }
+
+async function getCategoriesApi() {
+    const result = await fetch(`https://dummyjson.com/products/categories`)
+    const data = await result.json()
+    return data
+}
+
+
+
+
 function drawCategories(data) {
     if (!Array.isArray(data)) return;
     console.log(data, "drawing...")
@@ -41,7 +52,10 @@ function drawCategories(data) {
 async function showProducts(categoryId) {
     try {
         showLoader()
-        const result = await getProductsByCategoryApi(categoryId)
+        const fnName = categoryId === "all" ? getAllProducts : getProductsByCategoryApi
+        const result = await fnName(categoryId)
+        const productsAvgPrice = getAveragePrice(result)
+        drawStatistics(productsAvgPrice)
         draw(result)
     }
     catch {
@@ -58,6 +72,13 @@ async function getProductsByCategoryApi(categoryId) {
     console.log(data.products)
     return data.products
 }
+
+async function getAllProducts() {
+    const result = await fetch(`https://dummyjson.com/products`)
+    const data = await result.json()
+    console.log(data.products)
+    return data.products
+}
 function draw(products) {
     // input validation!!!
     const titles = products.map(p => { return `<h2>${p.title}</h2>` })
@@ -70,6 +91,21 @@ function hideLoader() {
     DOM.loader.style.display = "none"
 }
 init()
+
+// add new statistics for products: average rating
+function drawStatistics(avg) {
+    DOM.statisticsContent.innerHTML = `<h1>Statistics</h1><h2>Average Price: ${Math.ceil(avg)}</h2>`
+
+}
+
+function getAveragePrice(arr) {
+    if (!Array.isArray(arr)) return;
+    let sum = 0;
+    arr.forEach(p => {
+        sum = sum + p.price
+    })
+    return sum / arr.length
+}
 
 
 
