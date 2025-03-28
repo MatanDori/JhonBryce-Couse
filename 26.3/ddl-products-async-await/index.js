@@ -3,20 +3,19 @@ const DOM = {
     loader: null,
     statisticsContent: null
 }
+
 function init() {
     DOM.statisticsContent = document.getElementById("stats")
     DOM.selectCategory = document.getElementById("categoriesSelect")
     DOM.loader = document.getElementById("loader")
     DOM.selectCategory.addEventListener("change", function () {
-        if (this.value === "noValue") return; // clean up dom
+        if (this.value === "noValue") return;
         showProducts(this.value)
     })
     console.log("starting the api request.. ")
     showCategories()
     console.log("after api request")
 }
-
-// split between UI and API logic. showCategories() & getCategoriesApi()
 
 async function showCategories() {
     try {
@@ -37,9 +36,6 @@ async function getCategoriesApi() {
     return data
 }
 
-
-
-
 function drawCategories(data) {
     if (!Array.isArray(data)) return;
     console.log(data, "drawing...")
@@ -51,21 +47,33 @@ function drawCategories(data) {
 
 async function showProducts(categoryId) {
     try {
-        showLoader()
-        const fnName = categoryId === "all" ? getAllProducts : getProductsByCategoryApi
-        const result = await fnName(categoryId)
-        const productsAvgPrice = getAveragePrice(result)
-        drawStatistics(productsAvgPrice)
-        draw(result)
-    }
-    catch {
-        alert("Something went wrong!")
-    }
-    finally {
-        hideLoader()
-        console.log("Finished running this async function :)")
+        showLoader();
+        const fnName = categoryId === "all" ? getAllProducts : getProductsByCategoryApi;
+        const result = await fnName(categoryId);
+
+        const productsAvgPrice = getAverageByAttribute(result, "price");
+        const productsRating = getAverageByAttribute(result, "rating");
+
+        const statsByBrand = getCountersByBrand(result);
+        const returnPoliciesStats = getCountersByAttribute(result, "returnPolicy");
+        const shippingInfoStats = getCountersByAttribute(result, "shippingInformation");
+
+        drawStatistics(
+            productsAvgPrice,
+            productsRating,
+            statsByBrand,
+            returnPoliciesStats,
+            shippingInfoStats
+        );
+        draw(result);
+    } catch {
+        alert("Something went wrong!");
+    } finally {
+        hideLoader();
+        console.log("Finished running this async function :)");
     }
 }
+
 async function getProductsByCategoryApi(categoryId) {
     const result = await fetch(`https://dummyjson.com/products/category/${categoryId}`)
     const data = await result.json()
@@ -79,40 +87,86 @@ async function getAllProducts() {
     console.log(data.products)
     return data.products
 }
+
 function draw(products) {
-    // input validation!!!
-    const titles = products.map(p => { return `<h2>${p.title}</h2>` })
+    const titles = products.map(p => `<h2>${p.title}</h2>`)
     document.querySelector("#content").innerHTML = titles.join("")
 }
+
 function showLoader() {
     DOM.loader.style.display = "flex"
 }
+
 function hideLoader() {
     DOM.loader.style.display = "none"
 }
-init()
 
-// add new statistics for products: average rating
-function drawStatistics(avg) {
-    DOM.statisticsContent.innerHTML = `<h1>Statistics</h1><h2>Average Price: ${Math.ceil(avg)}</h2>`
+function drawStatistics(avg, averageR, statsByBrand, returnPoliciesStats, shippingInfoStats) {
+    DOM.statisticsContent.innerHTML = `<h1>Statistics</h1>
+    <h2>Average Price: ${avg}</h2>
+    <h2>Average Rating: ${averageR}</h2>`;
 
+    if (Object.keys(statsByBrand).length) {
+        DOM.statisticsContent.innerHTML += `<h2>Brand Statistics</h2>`;
+        for (const key in statsByBrand) {
+            DOM.statisticsContent.innerHTML += `<h3>${key}: ${statsByBrand[key]}</h3>`;
+        }
+    }
+
+    if (Object.keys(returnPoliciesStats).length) {
+        DOM.statisticsContent.innerHTML += `<h2>Return Policy Statistics</h2>`;
+        for (const key in returnPoliciesStats) {
+            DOM.statisticsContent.innerHTML += `<h3>${key}: ${returnPoliciesStats[key]}</h3>`;
+        }
+    }
+
+    if (Object.keys(shippingInfoStats).length) {
+        DOM.statisticsContent.innerHTML += `<h2>Shipping Information Statistics</h2>`;
+        for (const key in shippingInfoStats) {
+            DOM.statisticsContent.innerHTML += `<h3>${key}: ${shippingInfoStats[key]}</h3>`;
+        }
+    }
 }
 
 function getAveragePrice(arr) {
     if (!Array.isArray(arr)) return;
     let sum = 0;
     arr.forEach(p => {
-        sum = sum + p.price
-    })
-    return sum / arr.length
+        sum += p.price;
+    });
+    return sum / arr.length;
 }
 
+function getAverageByAttribute(arr, attr) {
+    if (!Array.isArray(arr)) return;
+    let sum = 0;
+    arr.forEach(p => {
+        sum += p[attr];
+    });
+    return Math.ceil(sum / arr.length);
+}
 
+function getCountersByBrand(arr) {
+    if (!Array.isArray(arr)) return;
+    let productBrand = {}
+    arr.forEach(p => {
+        if (p.brand) {
+            productBrand[p.brand] = (productBrand[p.brand] || 0) + 1;
+        }
+    })
+    return productBrand;
+}
 
+function getCountersByAttribute(arr, attr) {
+    if (!Array.isArray(arr)) return;
+    let counters = {};
+    arr.forEach(item => {
+        const value = item[attr];
+        if (value) {
+            counters[value] = (counters[value] || 0) + 1;
+        }
+    });
+    return counters;
+}
 
-
-
-
-
-
-
+init()
