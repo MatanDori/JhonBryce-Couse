@@ -47,30 +47,23 @@ function drawCategories(data) {
 
 async function showProducts(categoryId) {
     try {
-        showLoader();
-        const fnName = categoryId === "all" ? getAllProducts : getProductsByCategoryApi;
-        const result = await fnName(categoryId);
-
-        const productsAvgPrice = getAverageByAttribute(result, "price");
-        const productsRating = getAverageByAttribute(result, "rating");
-
-        const statsByBrand = getCountersByBrand(result);
+        showLoader()
+        const fnName = categoryId === "all" ? getAllProducts : getProductsByCategoryApi
+        const result = await fnName(categoryId)
+        const productsAvgPrice = getAverageByAttribute(result, "price")
+        const productsRating = getAverageByAttribute(result, "rating")
+        const statsByBrand = getCountersByBrand(result)
         const returnPoliciesStats = getCountersByAttribute(result, "returnPolicy");
         const shippingInfoStats = getCountersByAttribute(result, "shippingInformation");
-
-        drawStatistics(
-            productsAvgPrice,
-            productsRating,
-            statsByBrand,
-            returnPoliciesStats,
-            shippingInfoStats
-        );
-        draw(result);
-    } catch {
-        alert("Something went wrong!");
-    } finally {
-        hideLoader();
-        console.log("Finished running this async function :)");
+        drawStatistics(productsAvgPrice, productsRating, statsByBrand, returnPoliciesStats, shippingInfoStats)
+        draw(result)
+    }
+    catch {
+        alert("Something went wrong!")
+    }
+    finally {
+        hideLoader()
+        console.log("Finished running this async function :)")
     }
 }
 
@@ -89,7 +82,7 @@ async function getAllProducts() {
 }
 
 function draw(products) {
-    const titles = products.map(p => `<h2>${p.title}</h2>`)
+    const titles = products.map(p => { return `<h2>${p.title}</h2>` })
     document.querySelector("#content").innerHTML = titles.join("")
 }
 
@@ -104,26 +97,26 @@ function hideLoader() {
 function drawStatistics(avg, averageR, statsByBrand, returnPoliciesStats, shippingInfoStats) {
     DOM.statisticsContent.innerHTML = `<h1>Statistics</h1>
     <h2>Average Price: ${avg}</h2>
-    <h2>Average Rating: ${averageR}</h2>`;
-
+    <h2>Average Rating: ${averageR}</h2>
+    `
     if (Object.keys(statsByBrand).length) {
-        DOM.statisticsContent.innerHTML += `<h2>Brand Statistics</h2>`;
-        for (const key in statsByBrand) {
-            DOM.statisticsContent.innerHTML += `<h3>${key}: ${statsByBrand[key]}</h3>`;
+        DOM.statisticsContent.innerHTML += `<h2> Brand Statistics</h2>`
+        for (key in statsByBrand) {
+            DOM.statisticsContent.innerHTML += `<h3>${key}: ${statsByBrand[key]} </h3>`
         }
     }
 
     if (Object.keys(returnPoliciesStats).length) {
-        DOM.statisticsContent.innerHTML += `<h2>Return Policy Statistics</h2>`;
+        DOM.statisticsContent.innerHTML += `<h2>Return Policy Statistics</h2>`
         for (const key in returnPoliciesStats) {
-            DOM.statisticsContent.innerHTML += `<h3>${key}: ${returnPoliciesStats[key]}</h3>`;
+            DOM.statisticsContent.innerHTML += `<h3>${key}: ${returnPoliciesStats[key]}</h3>`
         }
     }
 
     if (Object.keys(shippingInfoStats).length) {
-        DOM.statisticsContent.innerHTML += `<h2>Shipping Information Statistics</h2>`;
+        DOM.statisticsContent.innerHTML += `<h2>Shipping Information Statistics</h2>`
         for (const key in shippingInfoStats) {
-            DOM.statisticsContent.innerHTML += `<h3>${key}: ${shippingInfoStats[key]}</h3>`;
+            DOM.statisticsContent.innerHTML += `<h3>${key}: ${shippingInfoStats[key]}</h3>`
         }
     }
 }
@@ -132,18 +125,18 @@ function getAveragePrice(arr) {
     if (!Array.isArray(arr)) return;
     let sum = 0;
     arr.forEach(p => {
-        sum += p.price;
-    });
-    return sum / arr.length;
+        sum = sum + p.price
+    })
+    return sum / arr.length
 }
 
 function getAverageByAttribute(arr, attr) {
     if (!Array.isArray(arr)) return;
     let sum = 0;
     arr.forEach(p => {
-        sum += p[attr];
-    });
-    return Math.ceil(sum / arr.length);
+        sum = sum + p[attr]
+    })
+    return Math.ceil(sum / arr.length)
 }
 
 function getCountersByBrand(arr) {
@@ -151,7 +144,11 @@ function getCountersByBrand(arr) {
     let productBrand = {}
     arr.forEach(p => {
         if (p.brand) {
-            productBrand[p.brand] = (productBrand[p.brand] || 0) + 1;
+            if (productBrand[p.brand]) {
+                productBrand[p.brand] = productBrand[p.brand] + 1;
+            } else {
+                productBrand[p.brand] = 1;
+            }
         }
     })
     return productBrand;
