@@ -41,4 +41,23 @@
       height: 10px;
     }
   }
+  /*homework*/
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    height: 200px;
+    margin: 20px 0;
+  }
+  
+  .bar {
+    background-color: steelblue;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    transition: height 0.3s ease;
+  }
+  
+  
   
