@@ -9,12 +9,14 @@
 </head>
 
 <body>
+    <h1> Countries Flags</h1>
     <div style="display: flex;justify-content: center;">
-        <select id="categoriesSelect">
-            <option value="noValue"> Select your Category </option>
+        <select id="countriesSelect">
+            <option value="noValue"> Select Country </option>
         </select>
-    </div>
 
+
+    </div>
     <div style="display: flex;justify-content: center;">
         <div id="loader" style="display: none;" class="loading-wave">
             <div class="loading-bar"></div>
@@ -24,15 +26,13 @@
         </div>
     </div>
 
-    <div style="display: flex;justify-content: center;align-items:self-start; width:80%; margin:auto; gap: 20px">
-        <div style="border: 1px solid black; padding:20px; flex: 1" id="content"></div>
+    <div id="countryDetailsContent">
 
-        <div style="display: flex; flex-direction: column; flex: 1; gap: 20px">
-            <div style="border: 1px solid black; padding:20px;" id="stats"></div>
-            <div style="border: 1px solid black; padding:20px;" id="chartsContainer"></div>
-        </div>
     </div>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./utils.js"></script>
     <script src="./index.js"></script>
 </body>
 

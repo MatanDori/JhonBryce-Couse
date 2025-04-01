@@ -6,15 +6,18 @@ const DOM = {
 }
 
 function init() {
+    // Get DOM elements and store them in the DOM object
     DOM.statisticsContent = document.getElementById("stats")
     DOM.selectCategory = document.getElementById("categoriesSelect")
     DOM.loader = document.getElementById("loader")
     DOM.chartsContainer = document.getElementById("chartsContainer")
+
     DOM.selectCategory.addEventListener("change", function () {
-        if (this.value === "noValue") return;
-        showProducts(this.value)
+        if (this.value === "noValue") return; 
+        showProducts(this.value) 
     })
-    showCategories()
+
+    showCategories() 
 }
 
 async function showCategories() {
@@ -43,7 +46,8 @@ function drawCategories(data) {
 
 async function showProducts(categoryId) {
     try {
-        showLoader()
+        showLoader() 
+
         const fnName = categoryId === "all" ? getAllProducts : getProductsByCategoryApi
         const result = await fnName(categoryId)
         const avgPrice = getAverageByAttribute(result, "price")
@@ -51,8 +55,12 @@ async function showProducts(categoryId) {
         const brandStats = getCountersByBrand(result)
         const returnPolicyStats = getCountersByAttribute(result, "returnPolicy")
         const shippingStats = getCountersByAttribute(result, "shippingInformation")
+
+        // Display statistics 
         drawStatistics(avgPrice, avgRating, brandStats, returnPolicyStats, shippingStats)
         draw(result)
+
+        // Render charts
         drawAllCharts([
             { title: "Brand Chart", stats: brandStats },
             { title: "Return Policy Chart", stats: returnPolicyStats },
@@ -63,7 +71,7 @@ async function showProducts(categoryId) {
         alert("Something went wrong!")
     }
     finally {
-        hideLoader()
+        hideLoader() 
     }
 }
 
@@ -92,6 +100,7 @@ function hideLoader() {
     DOM.loader.style.display = "none"
 }
 
+// Display 
 function drawStatistics(avg, averageR, statsByBrand, returnPoliciesStats, shippingInfoStats) {
     DOM.statisticsContent.innerHTML = `<h1>Statistics</h1>
     <h2>Average Price: ${avg}</h2>
@@ -119,6 +128,7 @@ function drawStatistics(avg, averageR, statsByBrand, returnPoliciesStats, shippi
     }
 }
 
+// Calculates the average value of a specific numeric attribute
 function getAverageByAttribute(arr, attr) {
     if (!Array.isArray(arr)) return;
     let sum = 0;
@@ -128,6 +138,7 @@ function getAverageByAttribute(arr, attr) {
     return Math.ceil(sum / arr.length)
 }
 
+// Counts products per brand
 function getCountersByBrand(arr) {
     if (!Array.isArray(arr)) return;
     let productBrand = {}
@@ -139,6 +150,7 @@ function getCountersByBrand(arr) {
     return productBrand;
 }
 
+// Generic counter function for any attribute 
 function getCountersByAttribute(arr, attr) {
     if (!Array.isArray(arr)) return;
     let counters = {};
@@ -151,6 +163,7 @@ function getCountersByAttribute(arr, attr) {
     return counters;
 }
 
+// Renders bar charts for different stats
 function drawAllCharts(chartsData) {
     DOM.chartsContainer.innerHTML = "";
     chartsData.forEach(({ title, stats }) => {
@@ -168,7 +181,7 @@ function drawAllCharts(chartsData) {
             wrapper.style.display = "flex";
             wrapper.style.flexDirection = "column";
             wrapper.style.alignItems = "center";
-            wrapper.style.width = "50px"; // קו קריטי: הרוחב של כל עמודה
+            wrapper.style.width = "50px"; // Important: column width
 
             const bar = document.createElement("div");
             bar.className = "bar";
@@ -193,8 +206,5 @@ function drawAllCharts(chartsData) {
         DOM.chartsContainer.appendChild(container);
     });
 }
-
-
-
 
 init()
