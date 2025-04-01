@@ -33,17 +33,25 @@ function drawCountriesSelect(data) {
 }
 async function showCountriesNames() {
     try {
-        const result = await getCountriesApi()
-        drawCountriesSelect(result)
-    }
-    catch (ex) {
-        console.log(ex)
-        alert("Something went wrong!")
-    }
-    finally {
-        console.log("another async function done running")
+        const result = await getCountriesApi();
+
+        drawCountriesSelect(result);
+
+        const countriesByRegion = countCountriesByRegion(result);
+        const populationByRegion = countPopulationByRegion(result);
+
+        // ציור הגרפים
+        drawPieChart("countriesPerRegionChart", countriesByRegion, "Number of Countries per Region");
+        drawPieChart("populationPerRegionChart", populationByRegion, "Total Population per Region");
+
+    } catch (ex) {
+        console.log(ex);
+        alert("Something went wrong!");
+    } finally {
+        console.log("another async function done running");
     }
 }
+
 async function getCountriesApi() {
     const result = await fetch(`https://restcountries.com/v3.1/all`)
     const data = await result.json()
@@ -80,5 +88,85 @@ function showLoader() {
 function hideLoader() {
     DOM.loader.style.display = "none"
 }
+
+// פונקציה שסופרת את כמות המדינות בכל אזור
+function countCountriesByRegion(countries) {
+    const result = {};
+
+    countries.forEach(country => {
+        const region = country.region || "Unknown";
+
+        // אם האזור כבר קיים, נוסיף 1, אחרת נתחיל לספור מ-1
+        if (result[region]) {
+            result[region]++;
+        } else {
+            result[region] = 1;
+        }
+    });
+
+    return result;
+}
+
+function countPopulationByRegion(countries) {
+    const result = {};
+
+    countries.forEach(country => {
+        const region = country.region || "Unknown";
+        const population = country.population || 0;
+
+        if (result[region]) {
+            result[region] += population;
+        } else {
+            result[region] = population;
+        }
+    });
+
+    return result;
+}
+function drawPieChart(canvasId, dataObject, title) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+
+    // Area name: ["Asia", "Europe"]
+    const labels = Object.keys(dataObject);
+
+    // values: [50, 44]
+    const data = Object.values(dataObject);
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: title,
+                data: data,
+                backgroundColor: [
+                    '#3498db',
+                    '#2ecc71',
+                    '#f1c40f',
+                    '#e67e22',
+                    '#e74c3c',
+                    '#9b59b6',
+                    '#1abc9c'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: title
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+}
+
+
+
 init()
 
