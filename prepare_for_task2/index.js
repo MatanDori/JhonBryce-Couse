@@ -1,7 +1,7 @@
 async function loadPopulationChart() {
     const url = 'https://datausa.io/api/data?drilldowns=Nation&measures=Population';
-    const res = await fetch(url);
-    const data = await res.json();
+    const res = await fetch(url);//  שליחת בקשה ל"שרת" ונחכה עד שיחזיר את התשובה המתאימה, כלומר את ההבטחה
+    const data = await res.json();//המרה לג'ייסון
     const years = data.data.map(entry => entry.Year);
     const populations = data.data.map(entry => entry.Population);
     const ctx = document.getElementById("populationChart").getContext("2d");//קריאה למיקום הספציפי בעמוד
@@ -41,7 +41,7 @@ async function loadUniversityCards() {
     const data = await res.json();
   
     const container = document.getElementById("universityCards");
-  
+  //בניית הכרטיסים
     data.results.forEach(university => {
       const card = document.createElement("div");
       card.className = "card";
