@@ -1,0 +1,35 @@
+body {
+    font-family: Arial;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  h1, h2 {
+    text-align: center;
+  }
+  
+  .chart-container {
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+  }
+  
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+  
+  .card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 16px;
+    width: 250px;
+    text-align: center;
+  }
+  
+  .card h3 {
+    margin: 0 0 10px;
+  }
+  
